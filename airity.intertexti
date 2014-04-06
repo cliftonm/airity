@@ -1,0 +1,106 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Notecards">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ID" msdata:AutoIncrement="true" type="xs:int" />
+                <xs:element name="TableOfContents" type="xs:string" minOccurs="0" />
+                <xs:element name="URL" type="xs:string" minOccurs="0" />
+                <xs:element name="HTML" type="xs:string" minOccurs="0" />
+                <xs:element name="Title" type="xs:string" default="Notecard" minOccurs="0" />
+                <xs:element name="IsOpen" type="xs:boolean" minOccurs="0" />
+                <xs:element name="IsChecked" type="xs:boolean" minOccurs="0" />
+                <xs:element name="DateCreated" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="DateModified" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="DateLastViewed" type="xs:dateTime" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="NotecardReferences">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ID" msdata:AutoIncrement="true" type="xs:int" />
+                <xs:element name="NotecardParentID" type="xs:int" />
+                <xs:element name="NotecardChildID" type="xs:int" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Metadata">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ID" msdata:AutoIncrement="true" type="xs:int" />
+                <xs:element name="NotecardID" type="xs:int" />
+                <xs:element name="Tag" type="xs:string" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="ApplicationData">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ID" msdata:AutoIncrement="true" type="xs:int" />
+                <xs:element name="LastViewedNotecardID" type="xs:int" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Notecards" />
+        <xs:field xpath="ID" />
+      </xs:unique>
+      <xs:unique name="NotecardReferences_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//NotecardReferences" />
+        <xs:field xpath="ID" />
+      </xs:unique>
+      <xs:unique name="Metadata_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Metadata" />
+        <xs:field xpath="ID" />
+      </xs:unique>
+      <xs:keyref name="FK_Metadata_Notecard" refer="Constraint1">
+        <xs:selector xpath=".//Metadata" />
+        <xs:field xpath="NotecardID" />
+      </xs:keyref>
+      <xs:keyref name="FK_NotecardRef_Notecard2" refer="Constraint1">
+        <xs:selector xpath=".//NotecardReferences" />
+        <xs:field xpath="NotecardChildID" />
+      </xs:keyref>
+      <xs:keyref name="FK_NotecardRef_Notecard1" refer="Constraint1">
+        <xs:selector xpath=".//NotecardReferences" />
+        <xs:field xpath="NotecardParentID" />
+      </xs:keyref>
+    </xs:element>
+  </xs:schema>
+  <Notecards>
+    <ID>0</ID>
+    <TableOfContents>Automation Test</TableOfContents>
+    <HTML>&lt;P&gt;A test bed for automating form generation.&lt;/P&gt;</HTML>
+    <Title>Automation Test</Title>
+    <IsOpen>true</IsOpen>
+    <DateCreated>2014-03-22T21:25:24.3478813-04:00</DateCreated>
+    <DateModified>2014-03-22T21:25:49.6553288-04:00</DateModified>
+  </Notecards>
+  <Notecards>
+    <ID>1</ID>
+    <TableOfContents>Setup</TableOfContents>
+    <HTML>&lt;P&gt;&lt;STRONG&gt;gemfile&lt;/STRONG&gt;&lt;/P&gt;
+&lt;P&gt;gem 'thin'&lt;BR&gt;gem 'sass'&lt;BR&gt;gem 'slim'&lt;BR&gt;gem 'foundation-rails'&lt;/P&gt;
+&lt;P&gt;&lt;STRONG&gt;database.yml&lt;/STRONG&gt;&lt;/P&gt;
+&lt;P&gt;development:&lt;BR&gt;&amp;nbsp; adapter: postgresql&lt;BR&gt;&amp;nbsp; database: automation-test_development&lt;BR&gt;&amp;nbsp; username: Interacx&lt;BR&gt;&amp;nbsp; password: laranzu&lt;BR&gt;&amp;nbsp; host: localhost&lt;BR&gt;&lt;/P&gt;
+&lt;P&gt;&lt;STRONG&gt;routes.rb&lt;/STRONG&gt;&lt;/P&gt;
+&lt;P&gt;AutomationTest::Application.routes.draw do&lt;BR&gt;&amp;nbsp; get "home/index"&lt;BR&gt;&amp;nbsp; root :to=&amp;gt;"home#index"&lt;BR&gt;end&lt;/P&gt;
+&lt;P&gt;&lt;STRONG&gt;controllers\home_controller.rb&lt;/STRONG&gt;&lt;/P&gt;
+&lt;P&gt;class HomeController &amp;lt; ApplicationController&lt;BR&gt;&amp;nbsp; def index&lt;/P&gt;
+&lt;P&gt;&amp;nbsp; end&lt;BR&gt;end&lt;/P&gt;
+&lt;P&gt;&lt;STRONG&gt;views\home\index.html.erb&lt;/STRONG&gt;&lt;/P&gt;
+&lt;P&gt;&amp;lt;% @title='Home' %&amp;gt;&lt;BR&gt;&amp;lt;div&amp;gt;&lt;BR&gt;&amp;nbsp; &amp;lt;p&amp;gt;Hello World&amp;lt;/p&amp;gt;&lt;BR&gt;&amp;lt;/div&amp;gt;&lt;BR&gt;&lt;/P&gt;
+&lt;P&gt;&amp;nbsp;&lt;/P&gt;</HTML>
+    <Title>Setup</Title>
+    <IsOpen>true</IsOpen>
+    <DateCreated>2014-03-22T21:25:52.0004629-04:00</DateCreated>
+    <DateModified>2014-03-24T13:34:09.856354-04:00</DateModified>
+  </Notecards>
+</NewDataSet>
