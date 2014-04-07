@@ -11,11 +11,21 @@ module Airity
     # ==========================================================
 
     # helper to get class names from an array of classes.
-    def get_class_names(styles)
+    def get_class_names(options)
       class_names = []
 
+      styles = options[:styles]
+
+      # Internal styles using Style class.
       if styles
         styles.each{|style| class_names << style.style_name}
+      end
+
+      ext_styles = options[:ext_styles]
+
+      # External styles as strings.
+      if ext_styles
+        ext_styles.each{|style| class_names << style}
       end
 
       class_names.join(' ')
@@ -41,7 +51,7 @@ module Airity
     end
 
     def div(options = {}, &block)
-      class_names = get_class_names(options[:styles])
+      class_names = get_class_names(options)
       @str << @auto.div_start(class_names)
       self.instance_eval(&block).to_s
       @str << @auto.div_end()
@@ -52,37 +62,37 @@ module Airity
     end
 
     def label(field_name, text, options ={})
-      class_names = get_class_names(options[:styles])
+      class_names = get_class_names(options)
       @str << @auto.label(field_name, text, class_names)
     end
 
     def text_field(field_name, options = {})
-      class_names = get_class_names(options[:styles])
+      class_names = get_class_names(options)
       @str << @auto.text_field(@current_model_name, field_name, class_names)
     end
 
     def post_button(label, options = {})
-      class_names = get_class_names(options[:styles])
+      class_names = get_class_names(options)
       @str << @auto.post_button(label, class_names)
     end
 
     def image(image_name, options = {})
-      class_names = get_class_names(options[:styles])
+      class_names = get_class_names(options)
       @str << @auto.image(image_name, class_names)
     end
 
     def link_to(text, path, options = {})
-      class_names = get_class_names(options[:styles])
+      class_names = get_class_names(options)
       @str << @auto.link_to(text, path, class_names)
     end
 
     def email(text, url, options = {})
-      class_names = get_class_names(options[:styles])
+      class_names = get_class_names(options)
       @str << @auto.email(text, url, class_names)
     end
 
     def p(text, options = {})
-      class_names = get_class_names(options[:styles])
+      class_names = get_class_names(options)
       @str << @auto.p(text, class_names)
     end
   end

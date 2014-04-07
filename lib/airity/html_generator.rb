@@ -100,11 +100,15 @@ module Airity
       str
     end
 
-    def form_end()
+    def tag_end(tag)
       @indent = @indent - 2
-      str = indentation() << Element.close('form')
+      str = indentation() << Element.close(tag)
       str << @crlf
       str
+    end
+
+    def form_end()
+      tag_end('form')
     end
 
     def div_start(style = '')
@@ -117,10 +121,7 @@ module Airity
     end
 
     def div_end()
-      @indent = @indent - 2
-      str = indentation() << Element.close('div')
-      str << @crlf
-      str
+      tag_end('div')
     end
 
     def row_start(style = '')
@@ -151,5 +152,75 @@ module Airity
       div_end()
     end
 
+    def nav(style = '', data = '')
+      str = indentation()
+      str << Element.new('nav').
+        conditional_attribute('class', style).
+        data_attribute(data).
+        to_string()
+      str << @crlf
+      @indent = @indent + 2
+      str
+    end
+
+    def nav_end
+      tag_end('nav')
+    end
+  end
+
+  def ul(style = '')
+    str = indentation()
+    str << Element.new('ul').
+        conditional_attribute('class', style).
+        to_string()
+    str << @crlf
+    @indent = @indent + 2
+    str
+  end
+
+  def li(style = '')
+    str = indentation()
+    str << Element.new('li').
+        conditional_attribute('class', style).
+        to_string()
+    str << @crlf
+    @indent = @indent + 2
+    str
+  end
+
+  def section(style = '')
+    str = indentation()
+    str << Element.new('section').
+        conditional_attribute('class', style).
+        to_string()
+    str << @crlf
+    @indent = @indent + 2
+    str
+  end
+
+  def section_end()
+    tag_end('section')
+  end
+
+  def header(header_num)
+    str = indentation()
+    str << Element.new('h' + header_num.to_s).
+        to_string()
+    str << @crlf
+    @indent = @indent + 2
+    str
+  end
+
+  def header_end(header_num)
+    tag_end('h' + header_num.to_s)
+  end
+
+  def ul_end()
+    tag_end('ul')
+  end
+
+  def li_end()
+    tag_end('li')
   end
 end
+

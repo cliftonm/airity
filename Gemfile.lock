@@ -41,7 +41,7 @@ GEM
     erubis (2.7.0)
     eventmachine (1.0.3-x86-mingw32)
     execjs (2.0.2)
-    foundation-rails (5.2.2.0)
+    foundation-rails (5.0.2.0)
       railties (>= 3.1.0)
       sass (>= 3.2.0)
     hike (1.2.3)
@@ -116,7 +116,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
-  foundation-rails
+  foundation-rails (= 5.0.2.0)
   jquery-rails
   pg
   rails (= 3.2.15)

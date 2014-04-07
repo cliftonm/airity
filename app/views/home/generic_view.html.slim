@@ -1,11 +1,4 @@
-head
-  title = render_title
-  = stylesheet_link_tag "application", media: "all"
-  = javascript_include_tag "application"
-  = csrf_meta_tags
-  = @page_style.html_safe
-body
-  = @header.html_safe
-  = @script.html_safe
-  = @footer.html_safe
-  = javascript_include_tag "application"
+= @page_style.html_safe
+= @header.html_safe
+= @script.html_safe
+= @footer.html_safe

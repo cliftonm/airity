@@ -13,7 +13,7 @@ class HomeController < ApplicationController
     # External / Internal / Inline: http://www.w3schools.com/css/css_howto.asp
     styles = AppStyles.new()
     @page_style = styles.css
-    @header = get_header(styles)
+    @header = get_header(styles) << get_top_bar(styles)
     @footer = get_footer(styles)
 
     @script = HtmlDsl.new.tags do
@@ -34,6 +34,10 @@ class HomeController < ApplicationController
   end
 
   def generic_view
+
+  end
+
+  def test_foundation
 
   end
 end

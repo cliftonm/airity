@@ -15,6 +15,7 @@ module Airity
     def initialize(tag_name)
       @tag_name = tag_name
       @attribute_values = []
+      @data_attributes = []
       @close_element = false
       @inner_xml = ''
       self
@@ -31,6 +32,12 @@ module Airity
       unless val.blank?
         @attribute_values << AttributeValue.new(attr, val)
       end
+
+      self
+    end
+
+    def data_attribute(attr)
+      @data_attributes << attr
 
       self
     end
@@ -56,6 +63,10 @@ module Airity
 
       @attribute_values.each do |kvp|
         str << kvp.attr << '="' << kvp.val << '" '
+      end
+
+      @data_attributes.each do |data|
+        str << data << ' '
       end
 
       if @close_element

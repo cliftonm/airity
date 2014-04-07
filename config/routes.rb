@@ -4,5 +4,6 @@ AutomationTest::Application.routes.draw do
   get "home/index"
   get "home/generic_view" => "home#generic_view"
   get "home/new" => "home#new"
+  get "test_foundation" => "home#test_foundation"
   root :to=>"home#new"
 end

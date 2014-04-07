@@ -10,7 +10,12 @@ gem 'pg'
 gem 'thin'
 gem 'sass'
 gem 'slim'
-gem 'foundation-rails'
+# 5.2 is broken regarding popup menus.  Probably something I'm screwing up.
+# Read / test the setup here: https://github.com/zurb/foundation-rails
+# and note it seems some things have changed.
+# Especially note, I am using SASS.
+# When I updated arctiores to 5.2, my test page also didn't work there.
+gem 'foundation-rails', '5.0.2.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
