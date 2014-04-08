@@ -1,4 +1,4 @@
-include Airity
+# include Airity
 include PageHelper
 include StyleHelper
 
@@ -16,20 +16,34 @@ class HomeController < ApplicationController
     @header = get_header(styles) << get_top_bar(styles)
     @footer = get_footer(styles)
 
-    @script = HtmlDsl.new.tags do
-      row({styles: [styles.content_section]}) do
-        columns(16) do
-          p('Communities exist in many forms -- family, neighbors, your town, your friends, people interested in the same hobby, having the same religious affiliation, and so forth.')
-          p('People have amazing gifts to offer to others - their knowledge, services, skills, items, sometimes just a listening ear.')
-          p('And people also have needs -- help with groceries, repair work, gardening, a recommendation for a good book, sharing their interests...')
-          p('Needs and Gifts is about the opportunity to share our gifts and needs with others, whether they are our neighbors, friends, coworkers, people with like-minded interests, people that share our beliefs.')
-          p('As you are new to this site, visit the public community listings to see if anything sparks your interest. Or create your own community - simply register and click on the "Create A Community" link that is available to any registered member.')
-          p('If you are new to this site, consider:')
-          p('Thank you for visiting!')
-        end
+    html_dsl = HtmlDsl.new
+    fz_dsl = FoundationZurbDsl.new(html_dsl)
+
+    html_dsl.tags do
+      fz_dsl.row({styles: [styles.content_section]}) do
+        fz_dsl.columns_for(
+            [
+                [3, -> {
+                  fz_dsl.side_nav do
+                    html_dsl.list_item_link('Privacy Policy', '#')      # , {ext_styles: ['active']}
+                    html_dsl.list_item_link('Terms and Conditions', '#')
+                  end
+                }],
+                [12, -> {
+                  html_dsl.p('Communities exist in many forms -- family, neighbors, your town, your friends, people interested in the same hobby, having the same religious affiliation, and so forth.')
+                  html_dsl.p('People have amazing gifts to offer to others - their knowledge, services, skills, items, sometimes just a listening ear.')
+                  html_dsl.p('And people also have needs -- help with groceries, repair work, gardening, a recommendation for a good book, sharing their interests...')
+                  html_dsl.p('Needs and Gifts is about the opportunity to share our gifts and needs with others, whether they are our neighbors, friends, coworkers, people with like-minded interests, people that share our beliefs.')
+                  html_dsl.p('As you are new to this site, visit the public community listings to see if anything sparks your interest. Or create your own community - simply register and click on the "Create A Community" link that is available to any registered member.')
+                  html_dsl.p('If you are new to this site, consider:')
+                  html_dsl.p('Thank you for visiting!')
+                }]
+            ]
+        )
       end
     end
 
+    @content = html_dsl.output
     render :generic_view
   end
 

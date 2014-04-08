@@ -1,51 +1,66 @@
+# include Airity
+# Example:
+# include DateTimeRendering
+# require File.expand_path('utility_functions','lib')
+# include UtilityFunctions
+
+require 'style'
+require 'html_dsl'
+require 'html_generator'
+require 'foundation_zurb_dsl'
 include Airity
 
 module PageHelper
   def get_header(styles)
-    # TODO: Why do we have to specify Airity:: for the first time something in this module is encountered?
-    header = "\r\n" << Airity::HtmlDsl.new.tags do
-      row({styles: [styles.header_section]}) do
-        columns_for(
+    html_dsl = HtmlDsl.new
+    fz_dsl = FoundationZurbDsl.new(html_dsl)
+
+    html_dsl.tags do
+      fz_dsl.row({styles: [styles.header_section]}) do
+        fz_dsl.columns_for(
             [
-                [4, -> {image('/images/community.jpg')}],
+                [4, -> {html_dsl.image('/images/community.jpg')}],
                 [12, -> {
-                  div({styles: [styles.right_justify]}) do
-                    label('dd1', 'Needs and Gifts', {styles: [styles.h1_ng]})
-                    label('dd2', 'People Living in Community', {styles: [styles.h2_ng]})
-                    link_to('Sign In', '/sign_in')
+                  html_dsl.div({styles: [styles.right_justify]}) do
+                    html_dsl.label('dd1', 'Needs and Gifts', {styles: [styles.h1_ng]})
+                    html_dsl.label('dd2', 'People Living in Community', {styles: [styles.h2_ng]})
+                    html_dsl.link_to('Sign In', '/sign_in')
                   end
                 }]
             ])
       end
     end
 
-    header
+    "\r\n" << html_dsl.output
   end
 
   def get_top_bar(styles)
-    my_top_bar = "\r\n" << Airity::HtmlDsl.new.tags do
-      row({styles: [styles.menu_section]}) do
-        div({ext_styles: ['contain-to-grid sticky']}) do
-          top_bar do
-            title_area do
-              title_name('Needs &amp; Gifts', '#')
-              top_bar_section do
-                left_menu do
-                  menu_item('How It Works', '#')
-                  menu_divider()
-                  menu_item('Register', '#') #, {ext_styles: ['active']})
-                  menu_divider()
-                  menu_item('Public Communities', '#')
+    html_dsl = HtmlDsl.new
+    fz_dsl = FoundationZurbDsl.new(html_dsl)
+
+    html_dsl.tags do
+      fz_dsl.row( {styles: [styles.menu_section]}) do
+        html_dsl.div({ext_styles: ['contain-to-grid sticky']}) do
+          fz_dsl.top_bar() do
+            fz_dsl.title_area() do
+              fz_dsl.title_name( 'Needs &amp; Gifts', '#')
+              fz_dsl.top_bar_section() do
+                fz_dsl.left_menu() do
+                  fz_dsl.menu_item( 'How It Works', '#')
+                  fz_dsl.menu_divider()
+                  fz_dsl.menu_item( 'Register', '#')  #, {ext_styles: ['active']})
+                  fz_dsl.menu_divider()
+                  fz_dsl.menu_item( 'Public Communities', '#')
                 end
-                right_menu do
-                  menu_item('Menu 3', '#')
-                  menu_item('Menu 4', '#')
-                  dropdown_menu('Menu 5', '#') do
-                    menu_item('Sub 1', '#')
-                    menu_item('Sub 2', '#')
-                    dropdown_menu('Sub 3', '#') do
-                      menu_item('Sub 3-1', '#')
-                      menu_item('Sub 3-2', '#')
+                fz_dsl.right_menu() do
+                  fz_dsl.menu_item( 'Menu 3', '#')
+                  fz_dsl.menu_item( 'Menu 4', '#')
+                  fz_dsl.dropdown_menu( 'Menu 5', '#') do
+                    fz_dsl.menu_item( 'Sub 1', '#')
+                    fz_dsl.menu_item( 'Sub 2', '#')
+                    fz_dsl.dropdown_menu( 'Sub 3', '#') do
+                      fz_dsl.menu_item( 'Sub 3-1', '#')
+                      fz_dsl.menu_item( 'Sub 3-2', '#')
                     end
                   end
                 end
@@ -56,23 +71,26 @@ module PageHelper
       end
     end
 
-    my_top_bar
+    "\r\n" << html_dsl.output
   end
 
   def get_footer(styles)
-    footer = HtmlDsl.new.tags do
-      line_break()
-      line_break()
-      row({styles: [styles.footer_section]}) do
-        columns(16) do
-          label('ftr1', '&copy; ' + DateTime.now.year.to_s + ' Marc Clifton.  All Rights Reserved.')
-          email('Contact Us', 'marc.clifton@gmail.com')
-          line_break()
-          link_to('Donate', '/donate')
+    html_dsl = HtmlDsl.new
+    fz_dsl = FoundationZurbDsl.new(html_dsl)
+
+    html_dsl.tags do
+      html_dsl.line_break()
+      html_dsl.line_break()
+      fz_dsl.row( {styles: [styles.footer_section]}) do
+        fz_dsl.columns( 16) do
+          html_dsl.label('ftr1', '&copy; ' + DateTime.now.year.to_s + ' Marc Clifton.  All Rights Reserved.')
+          html_dsl.email('Contact Us', 'marc.clifton@gmail.com')
+          html_dsl.line_break()
+          html_dsl.link_to('Donate', '/donate')
         end
       end
     end
 
-    footer
+    "\r\n" << html_dsl.output
   end
 end

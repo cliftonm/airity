@@ -1,3 +1,6 @@
+require 'element'
+include Airity
+
 module Airity
   class HtmlGenerator
     attr_accessor :str
@@ -9,6 +12,13 @@ module Airity
 
     def indentation()
       ' ' * @indent
+    end
+
+    def tag_end(tag)
+      @indent = @indent - 2
+      str = indentation() << Element.close(tag)
+      str << @crlf
+      str
     end
 
     def form_for(model_name)
@@ -100,13 +110,6 @@ module Airity
       str
     end
 
-    def tag_end(tag)
-      @indent = @indent - 2
-      str = indentation() << Element.close(tag)
-      str << @crlf
-      str
-    end
-
     def form_end()
       tag_end('form')
     end
@@ -122,34 +125,6 @@ module Airity
 
     def div_end()
       tag_end('div')
-    end
-
-    def row_start(style = '')
-      str = indentation()
-      str << Element.new('div').
-          attribute('class', 'row ' + style).
-          to_string()
-      str << @crlf
-      @indent = @indent + 2
-      str
-    end
-
-    def row_end()
-      div_end()
-    end
-
-    def columns_start(num_cols, style = '')
-      str = indentation()
-      str << Element.new('div').
-          attribute('class', 'small-'+num_cols.to_s+' columns ' + style).
-          to_string()
-      str << @crlf
-      @indent = @indent + 2
-      str
-    end
-
-    def columns_end()
-      div_end()
     end
 
     def nav(style = '', data = '')
@@ -178,6 +153,10 @@ module Airity
     str
   end
 
+  def ul_end()
+    tag_end('ul')
+  end
+
   def li(style = '')
     str = indentation()
     str << Element.new('li').
@@ -186,6 +165,10 @@ module Airity
     str << @crlf
     @indent = @indent + 2
     str
+  end
+
+  def li_end()
+    tag_end('li')
   end
 
   def section(style = '')
@@ -213,14 +196,6 @@ module Airity
 
   def header_end(header_num)
     tag_end('h' + header_num.to_s)
-  end
-
-  def ul_end()
-    tag_end('ul')
-  end
-
-  def li_end()
-    tag_end('li')
   end
 end
 
