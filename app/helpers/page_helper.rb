@@ -43,24 +43,24 @@ module PageHelper
         html_dsl.div({ext_styles: ['contain-to-grid sticky']}) do
           fz_dsl.top_bar() do
             fz_dsl.title_area() do
-              fz_dsl.title_name( 'Needs &amp; Gifts', '#')
-              fz_dsl.top_bar_section() do
-                fz_dsl.left_menu() do
-                  fz_dsl.menu_item( 'How It Works', '#')
-                  fz_dsl.menu_divider()
-                  fz_dsl.menu_item( 'Register', '#')  #, {ext_styles: ['active']})
-                  fz_dsl.menu_divider()
-                  fz_dsl.menu_item( 'Public Communities', '#')
+              fz_dsl.title_name('Needs &amp; Gifts', '#')
+              fz_dsl.top_bar_section do
+                fz_dsl.left_menu do
+                  fz_dsl.menu_item('How It Works', '#')
+                  fz_dsl.menu_divider
+                  fz_dsl.menu_item('Register', '#')  #, {ext_styles: ['active']})
+                  fz_dsl.menu_divider
+                  fz_dsl.menu_item('Public Communities', '#')
                 end
-                fz_dsl.right_menu() do
-                  fz_dsl.menu_item( 'Menu 3', '#')
-                  fz_dsl.menu_item( 'Menu 4', '#')
-                  fz_dsl.dropdown_menu( 'Menu 5', '#') do
-                    fz_dsl.menu_item( 'Sub 1', '#')
-                    fz_dsl.menu_item( 'Sub 2', '#')
-                    fz_dsl.dropdown_menu( 'Sub 3', '#') do
-                      fz_dsl.menu_item( 'Sub 3-1', '#')
-                      fz_dsl.menu_item( 'Sub 3-2', '#')
+                fz_dsl.right_menu do
+                  fz_dsl.menu_item('Menu 3', '#')
+                  fz_dsl.menu_item('Menu 4', '#')
+                  fz_dsl.dropdown_menu('Menu 5', '#') do
+                    fz_dsl.menu_item('Sub 1', '#')
+                    fz_dsl.menu_item('Sub 2', '#')
+                    fz_dsl.dropdown_menu('Sub 3', '#') do
+                      fz_dsl.menu_item('Sub 3-1', '#')
+                      fz_dsl.menu_item('Sub 3-2', '#')
                     end
                   end
                 end
@@ -82,7 +82,7 @@ module PageHelper
       html_dsl.line_break()
       html_dsl.line_break()
       fz_dsl.row( {styles: [styles.footer_section]}) do
-        fz_dsl.columns( 16) do
+        fz_dsl.columns(16) do
           html_dsl.label('ftr1', '&copy; ' + DateTime.now.year.to_s + ' Marc Clifton.  All Rights Reserved.')
           html_dsl.email('Contact Us', 'marc.clifton@gmail.com')
           html_dsl.line_break()

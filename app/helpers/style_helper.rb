@@ -1,4 +1,5 @@
-# include Airity
+require 'style'
+include Airity
 
 module StyleHelper
   class AppStyles
@@ -15,7 +16,6 @@ module StyleHelper
     attr_accessor :css
 
     def initialize()
-      # TODO: Why do we have to specify Airity:: for the first time something in this module is encountered?
       @header_section = Style.new {
         @style_name = 'header-section'
         @styles =
