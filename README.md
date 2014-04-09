@@ -2,7 +2,7 @@ Airity
 ==
 A Comprehensive Domain Specific Language (DSL) for Web Application Development
 
--> "Do it all in Ruby" <-
+*** "Do it all in Ruby" ***
 
 Airity is a DSL for generating HTML, CSS, and Javascript directly in Ruby.  The impetus for creating this project is:
 
@@ -21,7 +21,7 @@ is the mantra.  We'll see how close to that goal we can get.
 
 This Project is in its Infancy
 --
-The current form of this repository is intended to explore re-creating a website (http://needsandgifts.herokuapp.com/) that I developed in straight Ruby, HTML, and CSS.  This is a good exercise for the core implementation of the DSL, but it means that at the moment, the DSL code and the website specific code is a bit entangled.  Eventually the DSL code will become a gem.
+The current form of this repository is intended to explore re-creating a website (http://needsandgifts.herokuapp.com/) that we developed in straight Ruby, HTML, and CSS.  This is a good exercise for the core implementation of the DSL, but it means that at the moment, the DSL code and the website specific code is a bit entangled.  Eventually the DSL code will become a gem.
 
 A Word About DSL's
 --
@@ -43,7 +43,7 @@ About Our Coding Style
 ==
  - We prefer a more object-oriented style of coding than native-speaking Ruby'ists may be comfortable with.
  - we prefer things like explicit return values.
- - Idiomatic Ruby is fine, but I like to wrap the idioms in English readable functions.
+ - Idiomatic Ruby is fine, but we like to wrap the idioms in English readable functions.
  - We like small, well documented functions.
 
 If you're comfortable with those guidelines, then you're welcome to contribute to the code base.  In a nutshell, your code is expected:
@@ -60,7 +60,7 @@ So, write a function to determine what state the presentation should be in, and 
 
 Examples
 ==
-Note that I use Slim and SASS for my markup, so you'll see this syntax in view pages.
+Note that we use Slim and SASS for my markup, so you'll see this syntax in view pages.
 
 All of these example are likely to change at this point!
 
@@ -68,7 +68,7 @@ A Basic View Page
 --
 This is the code for a generic view page:
 
-```sh
+```ruby
 = @page_style.html_safe
 = @header.html_safe
 = @content.html_safe
@@ -87,7 +87,7 @@ Creating Styles
 --
 Styles are created by instantiating instances of the Style class.  The hash keys should map exactly to the desired CSS style, except use the '_' character.  For example:
 
-```sh
+```ruby
 require 'style'
 include Airity
 
@@ -128,7 +128,7 @@ A Basic Usage Example
 --
 This example illustrates combining standard HTML/CSS markup with Foundation Zurb's features.
 
-```sh
+```ruby
   def get_header(styles)
     html_dsl = HtmlDsl.new
     fz_dsl = FoundationZurbDsl.new(html_dsl)
@@ -160,7 +160,7 @@ We then generate the HTML, specifying styles and so forth, for the header.
 A Foundation Menu Example
 --
 Here's how the DSL is used to create a menu:
-```sh
+```ruby
   def get_top_bar(styles)
     html_dsl = HtmlDsl.new
     fz_dsl = FoundationZurbDsl.new(html_dsl)
