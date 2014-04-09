@@ -2,7 +2,7 @@ Airity
 ==
 A Comprehensive Domain Specific Language (DSL) for Web Application Development
 
-*** "Do it all in Ruby" ***
+**_"Do it all in Ruby"_**
 
 Airity is a DSL for generating HTML, CSS, and Javascript directly in Ruby.  The impetus for creating this project is:
 
