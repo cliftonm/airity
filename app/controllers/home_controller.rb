@@ -30,13 +30,15 @@ class HomeController < ApplicationController
                   end
                 }],
                 [12, -> {
-                  html_dsl.p('Communities exist in many forms -- family, neighbors, your town, your friends, people interested in the same hobby, having the same religious affiliation, and so forth.')
-                  html_dsl.p('People have amazing gifts to offer to others - their knowledge, services, skills, items, sometimes just a listening ear.')
-                  html_dsl.p('And people also have needs -- help with groceries, repair work, gardening, a recommendation for a good book, sharing their interests...')
-                  html_dsl.p('Needs and Gifts is about the opportunity to share our gifts and needs with others, whether they are our neighbors, friends, coworkers, people with like-minded interests, people that share our beliefs.')
-                  html_dsl.p('As you are new to this site, visit the public community listings to see if anything sparks your interest. Or create your own community - simply register and click on the "Create A Community" link that is available to any registered member.')
-                  html_dsl.p('If you are new to this site, consider:')
-                  html_dsl.p('Thank you for visiting!')
+                  html_dsl.div({id: 'home_text'}) do
+                    html_dsl.p('Communities exist in many forms -- family, neighbors, your town, your friends, people interested in the same hobby, having the same religious affiliation, and so forth.')
+                    html_dsl.p('People have amazing gifts to offer to others - their knowledge, services, skills, items, sometimes just a listening ear.')
+                    html_dsl.p('And people also have needs -- help with groceries, repair work, gardening, a recommendation for a good book, sharing their interests...')
+                    html_dsl.p('Needs and Gifts is about the opportunity to share our gifts and needs with others, whether they are our neighbors, friends, coworkers, people with like-minded interests, people that share our beliefs.')
+                    html_dsl.p('As you are new to this site, visit the public community listings to see if anything sparks your interest. Or create your own community - simply register and click on the "Create A Community" link that is available to any registered member.')
+                    html_dsl.p('If you are new to this site, consider:')
+                    html_dsl.p('Thank you for visiting!')
+                  end
                 }]
             ]
         )

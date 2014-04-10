@@ -27,7 +27,8 @@ module Airity
 
     def div(options = {})
       class_names = get_class_names(options)
-      @output << @html_gen.div_start(class_names)
+      id = get_id(options)
+      @output << @html_gen.div_start(id, class_names)
       yield
       @output << @html_gen.div_end()
     end
@@ -80,7 +81,7 @@ module Airity
 
     def list_item_link(text, url, options = {})
       class_names = get_class_names(options)
-      @output << @html_gen.li(class_names)
+      @output << @html_gen.li('', '', class_names)
       @output << @html_gen.link_to(text, url)
       @output << @html_gen.li_end()
     end

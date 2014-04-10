@@ -43,24 +43,24 @@ module PageHelper
         html_dsl.div({ext_styles: ['contain-to-grid sticky']}) do
           fz_dsl.top_bar() do
             fz_dsl.title_area() do
-              fz_dsl.title_name('Needs &amp; Gifts', '#')
+              fz_dsl.title_name('Needs &amp; Gifts', '#', {id: 'mnuHome'})
               fz_dsl.top_bar_section do
                 fz_dsl.left_menu do
-                  fz_dsl.menu_item('How It Works', '#')
+                  fz_dsl.menu_item('How It Works', {id: 'mnuHowItWorks'})
                   fz_dsl.menu_divider
-                  fz_dsl.menu_item('Register', '#')  #, {ext_styles: ['active']})
+                  fz_dsl.menu_item('Register', {id: 'mnuRegister'})  #, {ext_styles: ['active']})
                   fz_dsl.menu_divider
-                  fz_dsl.menu_item('Public Communities', '#')
+                  fz_dsl.menu_item('Public Communities', {id: 'mnuPublicCommunities'})
                 end
                 fz_dsl.right_menu do
-                  fz_dsl.menu_item('Menu 3', '#')
-                  fz_dsl.menu_item('Menu 4', '#')
-                  fz_dsl.dropdown_menu('Menu 5', '#') do
-                    fz_dsl.menu_item('Sub 1', '#')
-                    fz_dsl.menu_item('Sub 2', '#')
-                    fz_dsl.dropdown_menu('Sub 3', '#') do
-                      fz_dsl.menu_item('Sub 3-1', '#')
-                      fz_dsl.menu_item('Sub 3-2', '#')
+                  fz_dsl.menu_item('Menu 3')
+                  fz_dsl.menu_item('Menu 4')
+                  fz_dsl.dropdown_menu('Menu 5') do
+                    fz_dsl.menu_item('Sub 1')
+                    fz_dsl.menu_item('Sub 2')
+                    fz_dsl.dropdown_menu('Sub 3') do
+                      fz_dsl.menu_item('Sub 3-1')
+                      fz_dsl.menu_item('Sub 3-2')
                     end
                   end
                 end

@@ -14,6 +14,14 @@ module Airity
       ' ' * @indent
     end
 
+    def leading_underscore(str)
+      '_' << str
+    end
+
+    def bracket(str)
+      '[' << str << ']'
+    end
+
     def tag_end(tag)
       @indent = @indent - 2
       str = indentation() << Element.close(tag)
@@ -24,9 +32,9 @@ module Airity
     def form_for(model_name)
       str = @crlf + indentation()
       str << Element.new('form').
-          attribute('action', '/'+model_name).
-          attribute('class', 'new_'+model_name).
-          attribute('id', 'new_'+model_name).
+          attribute('id', 'new_', model_name).
+          attribute('action', '/', model_name).
+          attribute('class', 'new_', model_name).
           attribute('method', 'post').to_string()
       str << @crlf
       @indent = @indent + 2
@@ -36,6 +44,7 @@ module Airity
     def label(field, text, style = '')
       str = indentation()
       str << Element.new('label').
+          attribute('id', 'lbl_', field).
           conditional_attribute('class', style).
           attribute('for', field).
           inner_xml(text).
@@ -58,8 +67,8 @@ module Airity
       str = indentation()
       str << Element.new('input').
           conditional_attribute('class', style).
-          attribute('id', model_name + '_' + field).
-          attribute('name', model_name + '[' + field +']').
+          attribute('id', model_name, leading_underscore(field)).
+          attribute('name', model_name + bracket(field)).
           attribute('type', 'text').
           close().to_string()
       str << @crlf
@@ -70,6 +79,7 @@ module Airity
       str = indentation()
       str << Element.new('input').
           conditional_attribute('class', style).
+          attribute('id', model_name, '_commit').
           attribute('name', 'commit').
           attribute('type', 'submit').
           attribute('value', label).
@@ -88,9 +98,10 @@ module Airity
       str
     end
 
-    def link_to(text, path, style = '')
+    def link_to(text, path, id = '', style = '')
       str = indentation()
       str << Element.new('a').
+          conditional_attribute('id', id).
           conditional_attribute('class', style).
           attribute('href', path).
           inner_xml(text).
@@ -103,7 +114,7 @@ module Airity
       str = indentation()
       str << Element.new('a').
           conditional_attribute('class', style).
-          attribute('href', 'mailto:' + url).
+          attribute('href', 'mailto:', url).
           inner_xml(text).
           close().to_string()
       str << @crlf
@@ -114,9 +125,10 @@ module Airity
       tag_end('form')
     end
 
-    def div_start(style = '')
+    def div_start(id = '', style = '')
       str = indentation()
       str << Element.new('div').
+          conditional_attribute('id', id).
           conditional_attribute('class', style).to_string()
       str << @crlf
       @indent = @indent + 2
@@ -157,13 +169,20 @@ module Airity
     tag_end('ul')
   end
 
-  def li(style = '')
+  def li(id = '', text = '', style = '')
     str = indentation()
     str << Element.new('li').
+        conditional_attribute('id', id).
         conditional_attribute('class', style).
+        conditional_inner_xml(text).
+        conditional_close().
         to_string()
     str << @crlf
-    @indent = @indent + 2
+
+    if text.blank?
+      @indent = @indent + 2
+    end
+
     str
   end
 

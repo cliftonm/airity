@@ -18,12 +18,24 @@ module Airity
       @data_attributes = []
       @close_element = false
       @inner_xml = ''
+
       self
     end
 
-    # An attribute of an XML element
-    def attribute(attr, val)
-      @attribute_values << AttributeValue.new(attr, val)
+    # For manually closing a tag later on.
+    def self.close(tag_name)
+      '</' + tag_name + '>'
+    end
+
+    # An attribute of an XML element.  Requires val1, val2 is optional and is appended to val1.
+    # Example:
+    # attribute('for', field)
+    # attribute('action', '/', model_name)
+    def attribute(attr, val1, val2=nil)
+      val = val1
+      val << val2 unless val2.nil?
+        @attribute_values << AttributeValue.new(attr, val)
+
       self
     end
 
@@ -31,6 +43,14 @@ module Airity
     def conditional_attribute(attr, val)
       unless val.blank?
         @attribute_values << AttributeValue.new(attr, val)
+      end
+
+      self
+    end
+
+    def conditional_inner_xml(str)
+      unless str.blank?
+        @inner_xml = str
       end
 
       self
@@ -44,17 +64,22 @@ module Airity
 
     def inner_xml(str)
       @inner_xml = str
+
       self
     end
 
     def close()
       @close_element = true
+
       self
     end
 
-    # For manually closing a tag later on.
-    def self.close(tag_name)
-      '</' + tag_name + '>'
+    def conditional_close()
+      unless @inner_xml.blank?
+        @close_element = true
+      end
+
+      self
     end
 
     # Converts the XML element to a string.

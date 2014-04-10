@@ -82,8 +82,9 @@ module Airity
       @html_dsl.output << @html_gen.ul_end()
     end
 
-    def title_name(text, url)
-      @html_dsl.output << @html_gen.li('name')
+    def title_name(text, url, options)
+      id = get_id(options)
+      @html_dsl.output << @html_gen.li(id, '', 'name')
       @html_dsl.output << @html_gen.header(1)
       @html_dsl.output << @html_gen.link_to(text, url)
       @html_dsl.output << @html_gen.header_end(1)
@@ -108,21 +109,22 @@ module Airity
       @html_dsl.output << @html_gen.ul_end()
     end
 
-    def menu_item(text, url, options ={})
+    def menu_item(text, options ={})
       class_names = get_class_names(options)
-      @html_dsl.output << @html_gen.li(class_names)
-      @html_dsl.output << @html_gen.link_to(text, url)
+      id = get_id(options)
+      @html_dsl.output << @html_gen.li('', '', class_names)
+      @html_dsl.output << @html_gen.link_to(text, '#', id)
       @html_dsl.output << @html_gen.li_end()
     end
 
     def menu_divider()
-      @html_dsl.output << @html_gen.li('divider')
+      @html_dsl.output << @html_gen.li('', '', 'divider')
       @html_dsl.output << @html_gen.li_end()
     end
 
-    def dropdown_menu(text, url)
-      @html_dsl.output << @html_gen.li('has-dropdown')
-      @html_dsl.output << @html_gen.link_to(text, url)
+    def dropdown_menu(text)
+      @html_dsl.output << @html_gen.li('', '', 'has-dropdown')
+      @html_dsl.output << @html_gen.link_to(text, '#')
       @html_dsl.output << @html_gen.ul('dropdown')
       yield
       @html_dsl.output << @html_gen.ul_end()
