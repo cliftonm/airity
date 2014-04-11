@@ -15,6 +15,7 @@ class HomeController < ApplicationController
     @page_style = styles.css
     @header = get_header(styles) << get_top_bar(styles)
     @footer = get_footer(styles)
+    @javascript = get_javascript()
 
     html_dsl = HtmlDsl.new
     fz_dsl = FoundationZurbDsl.new(html_dsl)
@@ -54,6 +55,10 @@ class HomeController < ApplicationController
   end
 
   def test_foundation
+
+  end
+
+  def test_jquery
 
   end
 end

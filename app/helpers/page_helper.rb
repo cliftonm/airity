@@ -8,6 +8,7 @@ require 'style'
 require 'html_dsl'
 require 'html_generator'
 require 'foundation_zurb_dsl'
+require 'javascript_dsl'
 include Airity
 
 module PageHelper
@@ -46,9 +47,9 @@ module PageHelper
               fz_dsl.title_name('Needs &amp; Gifts', '#', {id: 'mnuHome'})
               fz_dsl.top_bar_section do
                 fz_dsl.left_menu do
-                  fz_dsl.menu_item('How It Works', {id: 'mnuHowItWorks'})
+                  fz_dsl.menu_item('How It Works', {id: 'mnuHowItWorks'}) # , ext_styles: ['active']})
                   fz_dsl.menu_divider
-                  fz_dsl.menu_item('Register', {id: 'mnuRegister'})  #, {ext_styles: ['active']})
+                  fz_dsl.menu_item('Register', {id: 'mnuRegister'}) #, ext_styles: ['active']})
                   fz_dsl.menu_divider
                   fz_dsl.menu_item('Public Communities', {id: 'mnuPublicCommunities'})
                 end
@@ -92,5 +93,48 @@ module PageHelper
     end
 
     "\r\n" << html_dsl.output
+  end
+
+  def get_javascript
+    js_dsl = JavascriptDsl.new()
+
+    on_click_select(js_dsl, ['mnuHowItWorks', 'mnuRegister', 'mnuPublicCommunities'])
+# Doing it very manually:
+=begin
+    js_dsl.on_click('a#mnuHowItWorks') do
+      js_dsl.add_class('li#mnuHowItWorks', 'active')
+      js_dsl.remove_class('li#mnuRegister', 'active')
+      js_dsl.remove_class('li#mnuPublicCommunities', 'active')
+    end
+
+    js_dsl.on_click('a#mnuRegister') do
+      js_dsl.remove_class('li#mnuHowItWorks', 'active')
+      js_dsl.add_class('li#mnuRegister', 'active')
+      js_dsl.remove_class('li#mnuPublicCommunities', 'active')
+    end
+
+    js_dsl.on_click('a#mnuPublicCommunities') do
+      js_dsl.remove_class('li#mnuHowItWorks', 'active')
+      js_dsl.remove_class('li#mnuRegister', 'active')
+      js_dsl.add_class('li#mnuPublicCommunities', 'active')
+    end
+=end
+    js_dsl.done()
+
+    js_dsl.output
+  end
+
+  def on_click_select(js_dsl, menu_list)
+    menu_list.each_with_index do |menu_click, index_click|
+      js_dsl.on_click("a##{menu_click}") do
+        menu_list.each_with_index do |menu_select, index_select|
+          if index_click == index_select
+            js_dsl.add_class("li##{menu_select}", 'active')
+          else
+            js_dsl.remove_class("li##{menu_select}", 'active')
+          end
+        end
+      end
+    end
   end
 end

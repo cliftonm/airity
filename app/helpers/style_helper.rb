@@ -139,7 +139,7 @@ module StyleHelper
               @color_white.get_css(),
           ]
 
-      @css = "\r\n<style>\r\n" + styles.join("\r\n") + "</style>\r\n"
+      @css = "\r\n<style type='text/css'>\r\n" + styles.join("\r\n") + "</style>\r\n"
     end
   end
 end

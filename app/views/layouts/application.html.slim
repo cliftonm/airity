@@ -3,8 +3,12 @@ html
   head
     title Airity
     = stylesheet_link_tag "application", media: "all"
+    /! Crazy stuff.  Must be here for JS events to work.
+    = javascript_include_tag "application"
     = csrf_meta_tags
 
   body
     = yield
+    /! WTF.  Must be here for Foundation's menu to work correctly.
     = javascript_include_tag "application"
+

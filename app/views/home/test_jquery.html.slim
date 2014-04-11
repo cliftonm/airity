@@ -1,0 +1,14 @@
+ul
+  li#Item1
+    | Item1
+    li#Item2
+      | Item2
+
+javascript:
+  $(document).ready(function(){
+    $("li#Item1").click(function(event){
+      alert("Thanks for visiting!");
+    });
+  });
+
+  $("li#Item1").text("Click me");

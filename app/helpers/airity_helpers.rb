@@ -28,5 +28,12 @@ module Airity
     id
   end
 
+  def get_option(options, sym)
+    ret = options[sym]
+    ret ||= ''
+
+    ret
+  end
+
 #   end
 end

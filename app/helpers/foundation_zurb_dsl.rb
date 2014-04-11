@@ -112,7 +112,7 @@ module Airity
     def menu_item(text, options ={})
       class_names = get_class_names(options)
       id = get_id(options)
-      @html_dsl.output << @html_gen.li('', '', class_names)
+      @html_dsl.output << @html_gen.li(id, '', class_names)
       @html_dsl.output << @html_gen.link_to(text, '#', id)
       @html_dsl.output << @html_gen.li_end()
     end
