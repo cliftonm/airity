@@ -73,6 +73,56 @@ class AirityTests < Test::Unit::TestCase
     assert_equal %Q|<body>\r\n  <form id="new_user" action="/user" class="new_user" method="post">\r\n    <input id="user_field1" name="user[field1]" class="class1" type="text"/>\r\n  </form>\r\n</body>|, output
   end
 
+  def test_paragraph
+    dsl = HtmlDsl.new()
+    dsl.body() {
+      dsl.p('A paragraph', {id: 'id1', ext_styles: ['class1']})
+    }
+    output = get_output(dsl)
+
+    assert_equal %Q|<body>\r\n  <p id="id1" class="class1">A paragraph</p>\r\n</body>|, output
+  end
+
+  def test_post_button
+    dsl = HtmlDsl.new()
+    dsl.body() {
+      dsl.post_button('Save', {id: 'id1', ext_styles: ['class1']})
+    }
+    output = get_output(dsl)
+
+    assert_equal %Q|<body>\r\n  <input id="id1" class="class1" name="commit" type="submit" value="Save"/>\r\n</body>|, output
+  end
+
+  def test_post_image
+    dsl = HtmlDsl.new()
+    dsl.body() {
+      dsl.image('save.jpg', {id: 'id1', ext_styles: ['class1']})
+    }
+    output = get_output(dsl)
+
+    assert_equal %Q|<body>\r\n  <img id="id1" class="class1" src="save.jpg"/>\r\n</body>|, output
+  end
+
+  def test_link_to
+    dsl = HtmlDsl.new()
+    dsl.body() {
+      dsl.link_to('Me', 'selfie.com', {id: 'id1', ext_styles: ['class1']})
+    }
+    output = get_output(dsl)
+
+    assert_equal %Q|<body>\r\n  <a id="id1" class="class1" href="selfie.com">Me</a>\r\n</body>|, output
+  end
+
+  def test_mail_to
+    dsl = HtmlDsl.new()
+    dsl.body() {
+      dsl.email('Send Money', 'me@gmail.com', {id: 'id1', ext_styles: ['class1']})
+    }
+    output = get_output(dsl)
+
+    assert_equal %Q|<body>\r\n  <a id="id1" class="class1" href="mailto:me@gmail.com">Send Money</a>\r\n</body>|, output
+  end
+
   private
 
   def get_output(dsl)

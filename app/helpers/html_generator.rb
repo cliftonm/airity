@@ -19,13 +19,6 @@ module Airity
       '[' << str << ']'
     end
 
-    def tag_end(tag)
-      @indent = @indent - 2
-      str = indentation() << Element.close(tag)
-      str << @crlf
-      str
-    end
-
     # This must always be the starting
     def body()
       element = @xdoc.create_element('body')
@@ -72,105 +65,12 @@ module Airity
       nil
     end
 
-    def line_break()
-      element = @xdoc.create_element('br')
-      @current_node.append_child(element)
-
-      nil
-    end
-
-    def label(text, field_name = nil, id = nil, style = nil)
-      element = @xdoc.create_element('label')
-      @current_node.append_child(element)
-
-      # TODO: throw exception if both field_name and id are specified
-      element.append_attribute(@xdoc.create_attribute('id', 'lbl_' + field_name)) if field_name
-      element.append_attribute(@xdoc.create_attribute('id', id)) if id
-
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
-      element.inner_text = text
-
-      nil
-    end
-
-    def text_field(model_name, field_name = nil, id = nil, style = nil)
-      element = @xdoc.create_element('input')
-      @current_node.append_child(element)
-
-      # TODO: throw exception if both field_name and id are specified
-      element.append_attribute(@xdoc.create_attribute('id', model_name + '_' + field_name)) if field_name
-      element.append_attribute(@xdoc.create_attribute('id', id)) if id
-
-      element.append_attribute(@xdoc.create_attribute('name', model_name + bracket(field_name))) if field_name
-
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
-      element.append_attribute(@xdoc.create_attribute('type', 'text'))
-
-      nil
-    end
-
-    def p(text, style = '')
-      str = indentation()
-      str << Element.new('p').
-          conditional_attribute('class', style).
-          inner_xml(text).
-          close().to_string()
-      str << @crlf
-      str
-    end
-
-    def post_button(label, style = '')
-      str = indentation()
-      str << Element.new('input').
-          conditional_attribute('class', style).
-          attribute('id', model_name, '_commit').
-          attribute('name', 'commit').
-          attribute('type', 'submit').
-          attribute('value', label).
-          close().to_string()
-      str << @crlf
-      str
-    end
-
-    def image(image_name, style = '')
-      str = indentation()
-      str << Element.new('img').
-          conditional_attribute('class', style).
-          attribute('src', image_name).
-          close().to_string()
-      str << @crlf
-      str
-    end
-
-    def link_to(text, path, id = '', style = '')
-      str = indentation()
-      str << Element.new('a').
-          conditional_attribute('id', id).
-          conditional_attribute('class', style).
-          attribute('href', path).
-          inner_xml(text).
-          close().to_string()
-      str << @crlf
-      str
-    end
-
-    def email(text, url, style = '')
-      str = indentation()
-      str << Element.new('a').
-          conditional_attribute('class', style).
-          attribute('href', 'mailto:', url).
-          inner_xml(text).
-          close().to_string()
-      str << @crlf
-      str
-    end
-
     def nav(style = '', data = '')
       str = indentation()
       str << Element.new('nav').
-        conditional_attribute('class', style).
-        data_attribute(data).
-        to_string()
+          conditional_attribute('class', style).
+          data_attribute(data).
+          to_string()
       str << @crlf
       @indent = @indent + 2
       str
@@ -240,6 +140,97 @@ module Airity
 
     def header_end(header_num)
       tag_end('h' + header_num.to_s)
+    end
+
+    def line_break()
+      element = @xdoc.create_element('br')
+      @current_node.append_child(element)
+
+      nil
+    end
+
+    def label(text, field_name = nil, id = nil, style = nil)
+      element = @xdoc.create_element('label')
+      @current_node.append_child(element)
+
+      # TODO: throw exception if both field_name and id are specified
+      element.append_attribute(@xdoc.create_attribute('id', 'lbl_' + field_name)) if field_name
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.inner_text = text
+
+      nil
+    end
+
+    def text_field(model_name, field_name = nil, id = nil, style = nil)
+      element = @xdoc.create_element('input')
+      @current_node.append_child(element)
+
+      # TODO: throw exception if both field_name and id are specified
+      element.append_attribute(@xdoc.create_attribute('id', model_name + '_' + field_name)) if field_name
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+
+      element.append_attribute(@xdoc.create_attribute('name', model_name + bracket(field_name))) if field_name
+
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('type', 'text'))
+
+      nil
+    end
+
+    def p(text, id = nil, style = nil)
+      element = @xdoc.create_element('p')
+      @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.inner_text = text
+
+      nil
+    end
+
+    def post_button(label, id = nil, style = nil)
+      element = @xdoc.create_element('input')
+      @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('name', 'commit'))
+      element.append_attribute(@xdoc.create_attribute('type', 'submit'))
+      element.append_attribute(@xdoc.create_attribute('value', label))
+
+      nil
+    end
+
+    def image(image_name, id = nil, style = nil)
+      element = @xdoc.create_element('img')
+      @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('src', image_name))
+
+      nil
+    end
+
+    def link_to(text, path, id = nil, style = nil)
+      element = @xdoc.create_element('a')
+      @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('href', path))
+      element.inner_text = text
+
+      nil
+    end
+
+    def email(text, url, id = nil, style = nil)
+      element = @xdoc.create_element('a')
+      @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('href', 'mailto:'+url))
+      element.inner_text = text
+
+      nil
     end
 
     private

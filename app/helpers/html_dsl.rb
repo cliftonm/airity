@@ -55,27 +55,32 @@ module Airity
 
     def post_button(label, options = {})
       class_names = get_class_names(options)
-      @html_gen.post_button(label, class_names)
+      id = get_id(options)
+      @html_gen.post_button(label, id, class_names)
     end
 
     def image(image_name, options = {})
       class_names = get_class_names(options)
-      @html_gen.image(image_name, class_names)
+      id = get_id(options)
+      @html_gen.image(image_name, id, class_names)
     end
 
     def link_to(text, path, options = {})
       class_names = get_class_names(options)
-      @html_gen.link_to(text, path, class_names)
+      id = get_id(options)
+      @html_gen.link_to(text, path, id, class_names)
     end
 
     def email(text, url, options = {})
       class_names = get_class_names(options)
-      @html_gen.email(text, url, class_names)
+      id = get_id(options)
+      @html_gen.email(text, url, id, class_names)
     end
 
     def p(text, options = {})
       class_names = get_class_names(options)
-      @html_gen.p(text, class_names)
+      id = get_id(options)
+      @html_gen.p(text, id, class_names)
     end
 
     def list(options = {})
