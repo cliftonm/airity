@@ -1,17 +1,17 @@
 require 'element'
+require 'clifton_lib/xml/xml_document'
 include Airity
+include CliftonXml
 
 module Airity
   class HtmlGenerator
     attr_accessor :str
 
     def initialize()
-      @indent = 0
-      @crlf = "\r\n"
-    end
-
-    def indentation()
-      ' ' * @indent
+      @xdoc = XmlDocument.new()
+      element = @xdoc.create_element('foobar')
+      @xdoc.append_child(element)
+      @current_node = nil
     end
 
     def leading_underscore(str)
