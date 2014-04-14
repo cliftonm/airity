@@ -1,17 +1,14 @@
-require 'element'
 require 'clifton_lib/xml/xml_document'
-include Airity
 include CliftonXml
 
 module Airity
   class HtmlGenerator
     attr_accessor :str
+    attr_reader :xdoc
 
     def initialize()
       @xdoc = XmlDocument.new()
-      element = @xdoc.create_element('foobar')
-      @xdoc.append_child(element)
-      @current_node = nil
+      @current_node = @xdoc
     end
 
     def leading_underscore(str)
@@ -29,28 +26,87 @@ module Airity
       str
     end
 
-    def form_for(model_name)
-      str = @crlf + indentation()
-      str << Element.new('form').
-          attribute('id', 'new_', model_name).
-          attribute('action', '/', model_name).
-          attribute('class', 'new_', model_name).
-          attribute('method', 'post').to_string()
-      str << @crlf
-      @indent = @indent + 2
-      str
+    # This must always be the starting
+    def body()
+      element = @xdoc.create_element('body')
+      @current_node.append_child(element)
+      @current_node = element
+
+      nil
     end
 
-    def label(field, text, style = '')
-      str = indentation()
-      str << Element.new('label').
-          attribute('id', 'lbl_', field).
-          conditional_attribute('class', style).
-          attribute('for', field).
-          inner_xml(text).
-          close().to_string()
-      str << @crlf
-      str
+    def body_end()
+      pop()
+      nil
+    end
+
+    def form_for(model_name)
+      element = @xdoc.create_element('form')
+      @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', 'new_'+model_name))
+      element.append_attribute(@xdoc.create_attribute('action', '/'+model_name))
+      element.append_attribute(@xdoc.create_attribute('class', 'new_'+model_name))
+      element.append_attribute(@xdoc.create_attribute('method', 'post'))
+      @current_node = element
+
+      nil
+    end
+
+    def form_end()
+      pop()
+      nil
+    end
+
+    def div(id = nil, style = nil)
+      element = @xdoc.create_element('div')
+      @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      @current_node = element
+
+      nil
+    end
+
+    def div_end()
+      pop()
+      nil
+    end
+
+    def line_break()
+      element = @xdoc.create_element('br')
+      @current_node.append_child(element)
+
+      nil
+    end
+
+    def label(text, field_name = nil, id = nil, style = nil)
+      element = @xdoc.create_element('label')
+      @current_node.append_child(element)
+
+      # TODO: throw exception if both field_name and id are specified
+      element.append_attribute(@xdoc.create_attribute('id', 'lbl_' + field_name)) if field_name
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.inner_text = text
+
+      nil
+    end
+
+    def text_field(model_name, field_name = nil, id = nil, style = nil)
+      element = @xdoc.create_element('input')
+      @current_node.append_child(element)
+
+      # TODO: throw exception if both field_name and id are specified
+      element.append_attribute(@xdoc.create_attribute('id', model_name + '_' + field_name)) if field_name
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+
+      element.append_attribute(@xdoc.create_attribute('name', model_name + bracket(field_name))) if field_name
+
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('type', 'text'))
+
+      nil
     end
 
     def p(text, style = '')
@@ -58,18 +114,6 @@ module Airity
       str << Element.new('p').
           conditional_attribute('class', style).
           inner_xml(text).
-          close().to_string()
-      str << @crlf
-      str
-    end
-
-    def text_field(model_name, field, style = '')
-      str = indentation()
-      str << Element.new('input').
-          conditional_attribute('class', style).
-          attribute('id', model_name, leading_underscore(field)).
-          attribute('name', model_name + bracket(field)).
-          attribute('type', 'text').
           close().to_string()
       str << @crlf
       str
@@ -121,24 +165,6 @@ module Airity
       str
     end
 
-    def form_end()
-      tag_end('form')
-    end
-
-    def div_start(id = '', style = '')
-      str = indentation()
-      str << Element.new('div').
-          conditional_attribute('id', id).
-          conditional_attribute('class', style).to_string()
-      str << @crlf
-      @indent = @indent + 2
-      str
-    end
-
-    def div_end()
-      tag_end('div')
-    end
-
     def nav(style = '', data = '')
       str = indentation()
       str << Element.new('nav').
@@ -153,68 +179,76 @@ module Airity
     def nav_end
       tag_end('nav')
     end
-  end
 
-  def ul(style = '')
-    str = indentation()
-    str << Element.new('ul').
-        conditional_attribute('class', style).
-        to_string()
-    str << @crlf
-    @indent = @indent + 2
-    str
-  end
-
-  def ul_end()
-    tag_end('ul')
-  end
-
-  def li(id = '', text = '', style = '')
-    str = indentation()
-    str << Element.new('li').
-        conditional_attribute('id', id).
-        conditional_attribute('class', style).
-        conditional_inner_xml(text).
-        conditional_close().
-        to_string()
-    str << @crlf
-
-    if text.blank?
+    def ul(style = '')
+      str = indentation()
+      str << Element.new('ul').
+          conditional_attribute('class', style).
+          to_string()
+      str << @crlf
       @indent = @indent + 2
+      str
     end
 
-    str
-  end
+    def ul_end()
+      tag_end('ul')
+    end
 
-  def li_end()
-    tag_end('li')
-  end
+    def li(id = '', text = '', style = '')
+      str = indentation()
+      str << Element.new('li').
+          conditional_attribute('id', id).
+          conditional_attribute('class', style).
+          conditional_inner_xml(text).
+          conditional_close().
+          to_string()
+      str << @crlf
 
-  def section(style = '')
-    str = indentation()
-    str << Element.new('section').
-        conditional_attribute('class', style).
-        to_string()
-    str << @crlf
-    @indent = @indent + 2
-    str
-  end
+      if text.blank?
+        @indent = @indent + 2
+      end
 
-  def section_end()
-    tag_end('section')
-  end
+      str
+    end
 
-  def header(header_num)
-    str = indentation()
-    str << Element.new('h' + header_num.to_s).
-        to_string()
-    str << @crlf
-    @indent = @indent + 2
-    str
-  end
+    def li_end()
+      tag_end('li')
+    end
 
-  def header_end(header_num)
-    tag_end('h' + header_num.to_s)
+    def section(style = '')
+      str = indentation()
+      str << Element.new('section').
+          conditional_attribute('class', style).
+          to_string()
+      str << @crlf
+      @indent = @indent + 2
+      str
+    end
+
+    def section_end()
+      tag_end('section')
+    end
+
+    def header(header_num)
+      str = indentation()
+      str << Element.new('h' + header_num.to_s).
+          to_string()
+      str << @crlf
+      @indent = @indent + 2
+      str
+    end
+
+    def header_end(header_num)
+      tag_end('h' + header_num.to_s)
+    end
+
+    private
+
+    def pop()
+      @current_node = @current_node.parent_node
+
+      nil
+    end
   end
 end
 
