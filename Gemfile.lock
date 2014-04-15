@@ -30,7 +30,7 @@ GEM
       multi_json (~> 1.0)
     arel (3.0.3)
     builder (3.0.4)
-    clifton_lib (0.0.1)
+    clifton_lib (0.0.3)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -40,7 +40,6 @@ GEM
     coffee-script-source (1.7.0)
     daemons (1.1.9)
     erubis (2.7.0)
-    eventmachine (1.0.3)
     eventmachine (1.0.3-x86-mingw32)
     execjs (2.0.2)
     foundation-rails (5.0.2.0)
@@ -117,7 +116,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  clifton_lib
+  clifton_lib (= 0.0.3)
   coffee-rails (~> 3.2.1)
   foundation-rails (= 5.0.2.0)
   jquery-rails

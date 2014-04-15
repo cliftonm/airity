@@ -5,6 +5,7 @@ module Airity
   # return nil or a space separated list of class names specified by the :styles and :ext_styles options.
   # :styles must be is an array of Style instances.
   # :ext_styles must be an array of strings.
+  # string get_class_names(Hash options)
   def get_class_names(options)
     ret = nil
     class_names = []
@@ -34,11 +35,16 @@ module Airity
     ret
   end
 
-  # Return nil or the value of the :id key in options
+  # string id = get_id(Hash options)
   def get_id(options)
     id = options[:id]
 
     id
+  end
+
+  # string[] data = get_data(Hash options)
+  def get_data(options)
+    data = options[:data]
   end
 
   # Returns nil or the value of the :field_name key in options

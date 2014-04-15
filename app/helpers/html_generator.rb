@@ -20,9 +20,11 @@ module Airity
     end
 
     # This must always be the starting
-    def body()
+    def body(id = nil, style = nil)
       element = @xdoc.create_element('body')
       @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
       @current_node = element
 
       nil
@@ -65,81 +67,91 @@ module Airity
       nil
     end
 
-    def nav(style = '', data = '')
-      str = indentation()
-      str << Element.new('nav').
-          conditional_attribute('class', style).
-          data_attribute(data).
-          to_string()
-      str << @crlf
-      @indent = @indent + 2
-      str
+    # void nav(string id = nil, Hash style = nil, string[] data = nil)
+    def nav(id = nil, style = nil, data = nil)
+      element = @xdoc.create_element('nav')
+      @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+
+      # special case:
+      # example: <nav class="top-bar" data-topbar>
+      if data
+        data.each {|item|
+          item = item.gsub('_', '-')
+          element.append_attribute(@xdoc.create_attribute(item, nil))
+        }
+      end
+
+      @current_node = element
+
+      nil
     end
 
     def nav_end
-      tag_end('nav')
+      pop()
+      nil
     end
 
-    def ul(style = '')
-      str = indentation()
-      str << Element.new('ul').
-          conditional_attribute('class', style).
-          to_string()
-      str << @crlf
-      @indent = @indent + 2
-      str
+    def ul(id = nil, style = nil)
+      element = @xdoc.create_element('ul')
+      @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      @current_node = element
+
+      nil
     end
 
     def ul_end()
-      tag_end('ul')
+      pop()
+      nil
     end
 
-    def li(id = '', text = '', style = '')
-      str = indentation()
-      str << Element.new('li').
-          conditional_attribute('id', id).
-          conditional_attribute('class', style).
-          conditional_inner_xml(text).
-          conditional_close().
-          to_string()
-      str << @crlf
+    def li(text = '', id = nil, style = nil)
+      element = @xdoc.create_element('li')
+      @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.inner_text = text
+      @current_node = element
 
-      if text.blank?
-        @indent = @indent + 2
-      end
-
-      str
+      nil
     end
 
     def li_end()
-      tag_end('li')
+      pop()
+      nil
     end
 
-    def section(style = '')
-      str = indentation()
-      str << Element.new('section').
-          conditional_attribute('class', style).
-          to_string()
-      str << @crlf
-      @indent = @indent + 2
-      str
+    def section(id = nil, style = nil)
+      element = @xdoc.create_element('section')
+      @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      @current_node = element
+
+      nil
     end
 
     def section_end()
-      tag_end('section')
+      pop()
+      nil
     end
 
-    def header(header_num)
-      str = indentation()
-      str << Element.new('h' + header_num.to_s).
-          to_string()
-      str << @crlf
-      @indent = @indent + 2
-      str
+    def header(header_num = 1, id = nil, style = nil)
+      element = @xdoc.create_element('h' + header_num.to_s)
+      @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      @current_node = element
+
+      nil
     end
 
-    def header_end(header_num)
-      tag_end('h' + header_num.to_s)
+    def header_end()
+      pop()
+      nil
     end
 
     def line_break()
@@ -232,8 +244,6 @@ module Airity
 
       nil
     end
-
-    private
 
     def pop()
       @current_node = @current_node.parent_node

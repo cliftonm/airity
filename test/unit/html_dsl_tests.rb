@@ -11,7 +11,7 @@ require '../../app/helpers/html_generator'
 require 'test/unit'
 include Airity
 
-class AirityTests < Test::Unit::TestCase
+class HtmlDslTests < Test::Unit::TestCase
   def test_create_body()
     dsl = HtmlDsl.new()
     dsl.body() {}
@@ -40,10 +40,60 @@ class AirityTests < Test::Unit::TestCase
     assert_equal %Q|<body>\r\n  <div id="id1" class="class1"/>\r\n</body>|, output
   end
 
+  def test_nav()
+    dsl = HtmlDsl.new()
+    dsl.body() {
+      dsl.nav({id: 'id1', ext_styles: ['class1'], data: ['data_topbar']}) {}
+    }
+    output = get_output(dsl)
+
+    assert_equal %Q|<body>\r\n  <nav id="id1" class="class1" data-topbar/>\r\n</body>|, output
+  end
+
+  def test_ul()
+    dsl = HtmlDsl.new()
+    dsl.body() {
+      dsl.ul({id: 'id1', ext_styles: ['class1']}) {}
+    }
+    output = get_output(dsl)
+
+    assert_equal %Q|<body>\r\n  <ul id="id1" class="class1"/>\r\n</body>|, output
+  end
+
+  def test_li()
+    dsl = HtmlDsl.new()
+    dsl.body() {
+      dsl.li('Apples', {id: 'id1', ext_styles: ['class1']}) {}
+    }
+    output = get_output(dsl)
+
+    assert_equal %Q|<body>\r\n  <li id="id1" class="class1">Apples</li>\r\n</body>|, output
+  end
+
+  def test_section()
+    dsl = HtmlDsl.new()
+    dsl.body() {
+      dsl.section({id: 'id1', ext_styles: ['class1']}) {}
+    }
+    output = get_output(dsl)
+
+    assert_equal %Q|<body>\r\n  <section id="id1" class="class1"/>\r\n</body>|, output
+  end
+
+  def test_header()
+    dsl = HtmlDsl.new()
+    dsl.body() {
+      dsl.header(1, {id: 'id1', ext_styles: ['class1']}) {}
+    }
+    output = get_output(dsl)
+
+    assert_equal %Q|<body>\r\n  <h1 id="id1" class="class1"/>\r\n</body>|, output
+  end
+
   def test_line_break()
     dsl = HtmlDsl.new()
     dsl.body() {
-    dsl.line_break()
+      dsl.line_break()
     }
     output = get_output(dsl)
 
