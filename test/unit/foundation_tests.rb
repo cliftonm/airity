@@ -1,6 +1,9 @@
 require 'clifton_lib/xml/xml_text_writer'
 include CliftonXml
 
+# We need to update the load path so that we find the helper files in the right folders.
+$:.unshift File.expand_path('../../../app/helpers', __FILE__)
+
 # require 'style'
 require '../../app/helpers/airity_helpers'
 require '../../app/helpers/html_dsl'
@@ -21,7 +24,7 @@ class FoundationTests < Test::Unit::TestCase
     }
     output = get_output(dsl)
 
-    assert_equal %Q|<body>\r\n  <div id="id1" class="style1"/>\r\n</body>|, output
+    assert_equal %Q|<body>\r\n  <div id="id1" class="row style1"/>\r\n</body>|, output
   end
 
   def test_columns()
@@ -43,7 +46,7 @@ class FoundationTests < Test::Unit::TestCase
     }
     output = get_output(dsl)
 
-    assert_equal %Q|<body>\r\n  <nav top-bar data-topbar/>\r\n</body>|, output
+    assert_equal %Q|<body>\r\n  <nav class="top-bar" data-topbar/>\r\n</body>|, output
   end
 
   def test_top_bar_section()

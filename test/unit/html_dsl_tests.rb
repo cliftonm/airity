@@ -1,10 +1,13 @@
 require 'clifton_lib/xml/xml_text_writer'
 include CliftonXml
 
+# We need to update the load path so that we find the helper files in the right folders.
+$:.unshift File.expand_path('../../../app/helpers', __FILE__)
+
 # require 'style'
-require '../../app/helpers/airity_helpers'
-require '../../app/helpers/html_dsl'
-require '../../app/helpers/html_generator'
+require 'airity_helpers'
+require 'html_dsl'
+require 'html_generator'
 # require 'foundation_zurb_dsl'
 # require 'javascript_dsl'
 

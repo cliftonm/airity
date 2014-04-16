@@ -108,12 +108,12 @@ module Airity
       nil
     end
 
-    def li(text = '', id = nil, style = nil)
+    def li(text = nil, id = nil, style = nil)
       element = @xdoc.create_element('li')
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
       element.append_attribute(@xdoc.create_attribute('class', style)) if style
-      element.inner_text = text
+      element.inner_text = text if text
       @current_node = element
 
       nil

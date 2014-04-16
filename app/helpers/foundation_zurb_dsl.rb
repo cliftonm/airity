@@ -12,6 +12,13 @@ module Airity
     def row(options = {})
       class_names = get_class_names(options)
       id = get_id(options)
+
+      if class_names.nil?
+        class_names = 'row'
+      else
+        class_names = 'row ' << class_names
+      end
+
       @html_gen.div(id, class_names)
       yield
       @html_gen.div_end()
@@ -52,7 +59,7 @@ module Airity
     end
 
     def top_bar()
-      @html_gen.nav(nil, nil, ['top-bar', 'data-topbar'])
+      @html_gen.nav(nil, 'top-bar', ['data-topbar'])
       yield
       @html_gen.nav_end()
 

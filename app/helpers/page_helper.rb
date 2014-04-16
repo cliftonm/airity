@@ -4,6 +4,8 @@
 # require File.expand_path('utility_functions','lib')
 # include UtilityFunctions
 
+require 'clifton_lib/xml/xml_text_writer'
+
 require 'style'
 require 'html_dsl'
 require 'html_generator'
@@ -23,8 +25,8 @@ module PageHelper
                 [4, -> {html_dsl.image('/images/community.jpg')}],
                 [12, -> {
                   html_dsl.div({styles: [styles.right_justify]}) do
-                    html_dsl.label('dd1', 'Needs and Gifts', {styles: [styles.h1_ng]})
-                    html_dsl.label('dd2', 'People Living in Community', {styles: [styles.h2_ng]})
+                    html_dsl.label('Needs and Gifts', {id: 'dd1', styles: [styles.h1_ng]})
+                    html_dsl.label('People Living in Community', {id: 'dd2', styles: [styles.h2_ng]})
                     html_dsl.link_to('Sign In', '/sign_in')
                   end
                 }]
@@ -32,7 +34,7 @@ module PageHelper
       end
     end
 
-    "\r\n" << html_dsl.output
+    "\r\n" << get_output(html_dsl)
   end
 
   def get_top_bar(styles)
@@ -72,7 +74,7 @@ module PageHelper
       end
     end
 
-    "\r\n" << html_dsl.output
+    "\r\n" << get_output(html_dsl)
   end
 
   def get_footer(styles)
@@ -84,7 +86,7 @@ module PageHelper
       html_dsl.line_break()
       fz_dsl.row( {styles: [styles.footer_section]}) do
         fz_dsl.columns(16) do
-          html_dsl.label('ftr1', '&copy; ' + DateTime.now.year.to_s + ' Marc Clifton.  All Rights Reserved.')
+          html_dsl.label('&copy; ' + DateTime.now.year.to_s + ' Marc Clifton.  All Rights Reserved.', {id: 'ftr1'})
           html_dsl.email('Contact Us', 'marc.clifton@gmail.com')
           html_dsl.line_break()
           html_dsl.link_to('Donate', '/donate')
@@ -92,7 +94,7 @@ module PageHelper
       end
     end
 
-    "\r\n" << html_dsl.output
+    "\r\n" << get_output(html_dsl)
   end
 
   def get_javascript
@@ -137,4 +139,15 @@ module PageHelper
       end
     end
   end
+
+  private
+
+  def get_output(dsl)
+    tw = XmlTextWriter.new()
+    tw.formatting = :indented
+    dsl.html_gen.xdoc.save(tw)
+
+    tw.output
+  end
+
 end

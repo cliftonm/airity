@@ -46,7 +46,7 @@ class HomeController < ApplicationController
       end
     end
 
-    @content = html_dsl.output
+    @content = get_output(html_dsl)
     render :generic_view
   end
 
@@ -60,6 +60,16 @@ class HomeController < ApplicationController
 
   def test_jquery
 
+  end
+  private
+
+  # TODO: Dupicate code!
+  def get_output(dsl)
+    tw = XmlTextWriter.new()
+    tw.formatting = :indented
+    dsl.html_gen.xdoc.save(tw)
+
+    tw.output
   end
 end
 

@@ -1,3 +1,5 @@
+require 'airity_helpers'
+
 module Airity
   class HtmlDsl
     attr_accessor :output
@@ -18,6 +20,11 @@ module Airity
     def html_head(&block)
 
       nil
+    end
+
+    # Convenience for getting into a block that starts appending children to the current XmlDocument node (usually root, so we can create sub-xml)
+    def tags
+      yield
     end
 
     def body(options = {})
@@ -176,7 +183,7 @@ module Airity
 
     def list_item_link(text, url, options = {})
       class_names = get_class_names(options)
-      @html_gen.li('', '', class_names)
+      @html_gen.li(nil, nil, class_names)
       @html_gen.link_to(text, url)
       @html_gen.li_end()
 
