@@ -18,6 +18,20 @@ module Airity
       ''
     end
 
+    def function(name, params = [])
+      param_list = params.join(', ')
+      @output << %Q|function #{name}(#{param_list}) {|
+      yield
+      @output << "}\r\n"
+
+      ''
+    end
+
+    def call_function(name, param_values = [])
+      param_value_list = param_values.join(', ')
+      @output << %Q|#{name}(#{param_value_list});|
+    end
+
     def add_class(tag, class_name)
       @output << %Q|$("#{tag}").addClass("#{class_name}");|
 

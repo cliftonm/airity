@@ -27,7 +27,6 @@ module PageHelper
                   html_dsl.div({classes: [styles.right_justify]}) do
                     html_dsl.label('Needs and Gifts', {id: 'dd1', classes: [styles.h1_ng]})
                     html_dsl.label('People Living in Community', {id: 'dd2', classes: [styles.h2_ng]})
-                    html_dsl.link_to('Sign In', '/sign_in')
                   end
                 }]
             ])
@@ -56,6 +55,8 @@ module PageHelper
                   fz_dsl.menu_item('Public Communities', {id: 'mnuPublicCommunities'})
                 end
                 fz_dsl.right_menu do
+                  fz_dsl.menu_item('Sign In', {id: 'mnuSignIn'})
+=begin
                   fz_dsl.menu_item('Menu 3')
                   fz_dsl.menu_item('Menu 4')
                   fz_dsl.dropdown_menu('Menu 5') do
@@ -66,6 +67,7 @@ module PageHelper
                       fz_dsl.menu_item('Sub 3-2')
                     end
                   end
+=end
                 end
               end
             end
@@ -99,20 +101,29 @@ module PageHelper
 
   def get_javascript
     js_dsl = JavascriptDsl.new()
+    menu_items = ['mnuHowItWorks', 'mnuRegister', 'mnuPublicCommunities', 'mnuPrivacyPolicy', 'mnuTandA', 'mnuSignIn']
+    text_content = ['home_text', 'how_it_works_text', 'sign_in_page']
 
-    on_click_select(js_dsl, ['mnuHowItWorks', 'mnuRegister', 'mnuPublicCommunities'])
+    on_click_make_active(js_dsl, menu_items)
+    clear_all_active_menu_items(js_dsl, menu_items)
+    hide_all_text_content(js_dsl, text_content)
 
+    # The home menu clears all active menu / sidebar selections.
     js_dsl.on_click('#mnuHome') {
+      js_dsl.call_function('clearAllActiveMenuItems')
+      js_dsl.call_function('hideAllTextContent')
       js_dsl.show('#home_text')
-      js_dsl.hide('#how_it_works_text')
-
-      # TODO: Need to remove active from all menus and sidebar hrefs.
-      js_dsl.remove_class('li#mnuHowItWorks', 'active')
     }
 
+    # The menus themselves handle the "active" visualization.
     js_dsl.on_click('#mnuHowItWorks') {
-      js_dsl.hide('#home_text')
+      js_dsl.call_function('hideAllTextContent')
       js_dsl.show('#how_it_works_text')
+    }
+
+    js_dsl.on_click('#mnuSignIn') {
+      js_dsl.call_function('hideAllTextContent')
+      js_dsl.show('#sign_in_page')
     }
 # Doing it very manually:
 =begin
@@ -139,7 +150,7 @@ module PageHelper
     js_dsl.output
   end
 
-  def on_click_select(js_dsl, menu_list)
+  def on_click_make_active(js_dsl, menu_list)
     menu_list.each_with_index do |menu_click, index_click|
       js_dsl.on_click("a##{menu_click}") do
         menu_list.each_with_index do |menu_select, index_select|
@@ -149,6 +160,22 @@ module PageHelper
             js_dsl.remove_class("li##{menu_select}", 'active')
           end
         end
+      end
+    end
+  end
+
+  def clear_all_active_menu_items(js_dsl, menu_list)
+    js_dsl.function('clearAllActiveMenuItems') do
+      menu_list.each do |menu_item|
+        js_dsl.remove_class("li##{menu_item}", 'active')
+      end
+    end
+  end
+
+  def hide_all_text_content(js_dsl, id_list)
+    js_dsl.function('hideAllTextContent') do
+      id_list.each do |id|
+        js_dsl.hide("##{id}")
       end
     end
   end

@@ -188,8 +188,9 @@ module Airity
 
     def list_item_link(text, url, options = {})
       class_names = get_class_names(options)
-      @html_gen.li(nil, nil, class_names)
-      @html_gen.link_to(text, url)
+      id = get_id(options)
+      @html_gen.li(nil, id, class_names)
+      @html_gen.link_to(text, url, id)
       @html_gen.li_end()
 
       nil

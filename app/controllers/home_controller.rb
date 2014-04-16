@@ -26,13 +26,14 @@ class HomeController < ApplicationController
             [
                 [3, -> {
                   fz_dsl.side_nav do
-                    html_dsl.list_item_link('Privacy Policy', '#')      # , {ext_classes: ['active']}
-                    html_dsl.list_item_link('Terms and Conditions', '#')
+                    html_dsl.list_item_link('Privacy Policy', '#', {id: 'mnuPrivacyPolicy'})      # , {ext_classes: ['active']}
+                    html_dsl.list_item_link('Terms and Conditions', '#', {id: 'mnuTandA'})
                   end
                 }],
                 [12, -> {
                   home_text_markup(html_dsl)
                   how_it_works_markup(html_dsl)
+                  sign_in_markup(html_dsl, fz_dsl, styles)
                 }]
             ]
         )
@@ -105,50 +106,51 @@ class HomeController < ApplicationController
       html_dsl.p('You are free to leave a community whenever you wish. You will no longer be able to visit that community. If you leave a private community, you will need to be re-invited in order to rejoin that community.')
     end
   end
-end
 
-
-=begin
-    html = html_dsl.form("user") do
-      row({classes: [styles.content_section]}) do
-        columns(6) do
-          div({classes: [styles.div_border]}) do
-            row do
-              columns_for(
-                         [
-                           [6, -> {label('acct_name', 'Account Name:', {classes: [styles.label_style, styles.right_justify]})}],
-                           [10, -> {text_field('acct_name')}],
-                         ])
-            end
-            row do
-              columns_for(
+  def sign_in_markup(html_dsl, fz_dsl, styles)
+    html_dsl.div({id: 'sign_in_page', styles: ['display: none']}) do
+      html_dsl.form("user") do
+        fz_dsl.row({classes: [styles.content_section]}) do
+          fz_dsl.columns(8, {ext_classes: ['small-offset-3']}) do
+            html_dsl.div({classes: [styles.div_border]}) do
+              fz_dsl.row do
+                fz_dsl.columns_for(
                   [
-                      [6, -> {label('password', 'Password:', {classes: [styles.label_style, styles.right_justify]})}],
-                      [10, -> {text_field('password')}],
+                   [5, -> {html_dsl.label('Account Name:', {id: 'acct_name', classes: [styles.label_style, styles.right_justify]})}],
+                   [11, -> {html_dsl.text_field({id: 'acct_name'})}],
                   ])
-            end
-
-            row do
-              columns(1) do
-                post_button("Sign In")
               end
-            end
-
-            row do line_break() end
-
-            row do
-              columns(16) do
-                label('opt1', 'Forgot your account name or password?')
+              fz_dsl.row do
+                fz_dsl.columns_for(
+                  [
+                    [5, -> {html_dsl.label('Password:', {id: 'password', classes: [styles.label_style, styles.right_justify]})}],
+                    [11, -> {html_dsl.text_field({id: 'password'})}],
+                  ])
               end
-            end
 
-            row do
-              columns(16) do
-                label('opt1', 'Don\'t have an account yet?')
+              fz_dsl.row do
+                fz_dsl.columns(1) do
+                  html_dsl.post_button("Sign In")
+                end
+              end
+
+              fz_dsl.row do html_dsl.line_break() end
+
+              fz_dsl.row do
+                fz_dsl.columns(16) do
+                  html_dsl.label('Forgot your account name or password?')
+                end
+              end
+
+              fz_dsl.row do
+                fz_dsl.columns(16) do
+                  html_dsl.label('Don\'t have an account yet?')
+                end
               end
             end
           end
         end
       end
     end
-=end
+  end
+end
