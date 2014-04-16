@@ -29,6 +29,24 @@ module Airity
 
       ''
     end
+
+    def toggle(tag)
+      @output << %Q|$("#{tag}").toggle();|
+
+      ''
+    end
+
+    def show(tag)
+      @output << %Q|$("#{tag}").show();|
+
+      ''
+    end
+
+    def hide(tag)
+      @output << %Q|$("#{tag}").hide();|
+
+      ''
+    end
   end
 end
 

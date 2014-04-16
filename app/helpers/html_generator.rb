@@ -19,12 +19,11 @@ module Airity
       '[' << str << ']'
     end
 
-    # This must always be the starting
-    def body(id = nil, style = nil)
+    def body(id = nil, klass = nil)
       element = @xdoc.create_element('body')
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       @current_node = element
 
       nil
@@ -52,11 +51,12 @@ module Airity
       nil
     end
 
-    def div(id = nil, style = nil)
+    def div(id = nil, klass = nil, style = nil)
       element = @xdoc.create_element('div')
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
+      element.append_attribute(@xdoc.create_attribute('style', style)) if style
       @current_node = element
 
       nil
@@ -67,12 +67,12 @@ module Airity
       nil
     end
 
-    # void nav(string id = nil, Hash style = nil, string[] data = nil)
-    def nav(id = nil, style = nil, data = nil)
+    # void nav(string id = nil, Hash klass = nil, string[] data = nil)
+    def nav(id = nil, klass = nil, data = nil)
       element = @xdoc.create_element('nav')
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
 
       # special case:
       # example: <nav class="top-bar" data-topbar>
@@ -93,11 +93,11 @@ module Airity
       nil
     end
 
-    def ul(id = nil, style = nil)
+    def ul(id = nil, klass = nil)
       element = @xdoc.create_element('ul')
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       @current_node = element
 
       nil
@@ -108,11 +108,11 @@ module Airity
       nil
     end
 
-    def li(text = nil, id = nil, style = nil)
+    def li(text = nil, id = nil, klass = nil)
       element = @xdoc.create_element('li')
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       element.inner_text = text if text
       @current_node = element
 
@@ -124,11 +124,11 @@ module Airity
       nil
     end
 
-    def section(id = nil, style = nil)
+    def section(id = nil, klass = nil)
       element = @xdoc.create_element('section')
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       @current_node = element
 
       nil
@@ -139,11 +139,12 @@ module Airity
       nil
     end
 
-    def header(header_num = 1, id = nil, style = nil)
+    def header(header_num = 1, text = nil, id = nil, klass = nil)
       element = @xdoc.create_element('h' + header_num.to_s)
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
+      element.inner_text = text
       @current_node = element
 
       nil
@@ -161,7 +162,7 @@ module Airity
       nil
     end
 
-    def label(text, field_name = nil, id = nil, style = nil)
+    def label(text, field_name = nil, id = nil, klass = nil)
       element = @xdoc.create_element('label')
       @current_node.append_child(element)
 
@@ -169,13 +170,13 @@ module Airity
       element.append_attribute(@xdoc.create_attribute('id', 'lbl_' + field_name)) if field_name
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
 
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       element.inner_text = text
 
       nil
     end
 
-    def text_field(model_name, field_name = nil, id = nil, style = nil)
+    def text_field(model_name, field_name = nil, id = nil, klass = nil)
       element = @xdoc.create_element('input')
       @current_node.append_child(element)
 
@@ -185,27 +186,27 @@ module Airity
 
       element.append_attribute(@xdoc.create_attribute('name', model_name + bracket(field_name))) if field_name
 
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       element.append_attribute(@xdoc.create_attribute('type', 'text'))
 
       nil
     end
 
-    def p(text, id = nil, style = nil)
+    def p(text, id = nil, klass = nil)
       element = @xdoc.create_element('p')
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       element.inner_text = text
 
       nil
     end
 
-    def post_button(label, id = nil, style = nil)
+    def post_button(label, id = nil, klass = nil)
       element = @xdoc.create_element('input')
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       element.append_attribute(@xdoc.create_attribute('name', 'commit'))
       element.append_attribute(@xdoc.create_attribute('type', 'submit'))
       element.append_attribute(@xdoc.create_attribute('value', label))
@@ -213,32 +214,32 @@ module Airity
       nil
     end
 
-    def image(image_name, id = nil, style = nil)
+    def image(image_name, id = nil, klass = nil)
       element = @xdoc.create_element('img')
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       element.append_attribute(@xdoc.create_attribute('src', image_name))
 
       nil
     end
 
-    def link_to(text, path, id = nil, style = nil)
+    def link_to(text, path, id = nil, klass = nil)
       element = @xdoc.create_element('a')
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       element.append_attribute(@xdoc.create_attribute('href', path))
       element.inner_text = text
 
       nil
     end
 
-    def email(text, url, id = nil, style = nil)
+    def email(text, url, id = nil, klass = nil)
       element = @xdoc.create_element('a')
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
-      element.append_attribute(@xdoc.create_attribute('class', style)) if style
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       element.append_attribute(@xdoc.create_attribute('href', 'mailto:'+url))
       element.inner_text = text
 

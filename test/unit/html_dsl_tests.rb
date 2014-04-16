@@ -36,7 +36,7 @@ class HtmlDslTests < Test::Unit::TestCase
   def test_div()
     dsl = HtmlDsl.new()
     dsl.body() {
-      dsl.div({id: 'id1', ext_styles: ['class1']}) {}
+      dsl.div({id: 'id1', ext_classes: ['class1']}) {}
     }
     output = get_output(dsl)
 
@@ -46,7 +46,7 @@ class HtmlDslTests < Test::Unit::TestCase
   def test_nav()
     dsl = HtmlDsl.new()
     dsl.body() {
-      dsl.nav({id: 'id1', ext_styles: ['class1'], data: ['data_topbar']}) {}
+      dsl.nav({id: 'id1', ext_classes: ['class1'], data: ['data_topbar']}) {}
     }
     output = get_output(dsl)
 
@@ -56,7 +56,7 @@ class HtmlDslTests < Test::Unit::TestCase
   def test_ul()
     dsl = HtmlDsl.new()
     dsl.body() {
-      dsl.ul({id: 'id1', ext_styles: ['class1']}) {}
+      dsl.ul({id: 'id1', ext_classes: ['class1']}) {}
     }
     output = get_output(dsl)
 
@@ -66,7 +66,7 @@ class HtmlDslTests < Test::Unit::TestCase
   def test_li()
     dsl = HtmlDsl.new()
     dsl.body() {
-      dsl.li('Apples', {id: 'id1', ext_styles: ['class1']}) {}
+      dsl.li('Apples', {id: 'id1', ext_classes: ['class1']}) {}
     }
     output = get_output(dsl)
 
@@ -76,7 +76,7 @@ class HtmlDslTests < Test::Unit::TestCase
   def test_section()
     dsl = HtmlDsl.new()
     dsl.body() {
-      dsl.section({id: 'id1', ext_styles: ['class1']}) {}
+      dsl.section({id: 'id1', ext_classes: ['class1']}) {}
     }
     output = get_output(dsl)
 
@@ -86,7 +86,7 @@ class HtmlDslTests < Test::Unit::TestCase
   def test_header()
     dsl = HtmlDsl.new()
     dsl.body() {
-      dsl.header(1, {id: 'id1', ext_styles: ['class1']}) {}
+      dsl.header(1, nil, {id: 'id1', ext_classes: ['class1']}) {}
     }
     output = get_output(dsl)
 
@@ -106,8 +106,8 @@ class HtmlDslTests < Test::Unit::TestCase
   def test_label
     dsl = HtmlDsl.new()
     dsl.body() {
-      dsl.label('label1', {id: 'id1', ext_styles: ['class1']}) {}
-      dsl.label('label2', {field_name: 'field1', ext_styles: ['class1']}) {}
+      dsl.label('label1', {id: 'id1', ext_classes: ['class1']}) {}
+      dsl.label('label2', {field_name: 'field1', ext_classes: ['class1']}) {}
     }
     output = get_output(dsl)
 
@@ -118,7 +118,7 @@ class HtmlDslTests < Test::Unit::TestCase
     dsl = HtmlDsl.new()
     dsl.body() {
       dsl.form('user') {
-        dsl.text_field({field_name: 'field1', ext_styles: ['class1']}) {}
+        dsl.text_field({field_name: 'field1', ext_classes: ['class1']}) {}
       }
     }
     output = get_output(dsl)
@@ -129,7 +129,7 @@ class HtmlDslTests < Test::Unit::TestCase
   def test_paragraph
     dsl = HtmlDsl.new()
     dsl.body() {
-      dsl.p('A paragraph', {id: 'id1', ext_styles: ['class1']})
+      dsl.p('A paragraph', {id: 'id1', ext_classes: ['class1']})
     }
     output = get_output(dsl)
 
@@ -139,7 +139,7 @@ class HtmlDslTests < Test::Unit::TestCase
   def test_post_button
     dsl = HtmlDsl.new()
     dsl.body() {
-      dsl.post_button('Save', {id: 'id1', ext_styles: ['class1']})
+      dsl.post_button('Save', {id: 'id1', ext_classes: ['class1']})
     }
     output = get_output(dsl)
 
@@ -149,7 +149,7 @@ class HtmlDslTests < Test::Unit::TestCase
   def test_post_image
     dsl = HtmlDsl.new()
     dsl.body() {
-      dsl.image('save.jpg', {id: 'id1', ext_styles: ['class1']})
+      dsl.image('save.jpg', {id: 'id1', ext_classes: ['class1']})
     }
     output = get_output(dsl)
 
@@ -159,7 +159,7 @@ class HtmlDslTests < Test::Unit::TestCase
   def test_link_to
     dsl = HtmlDsl.new()
     dsl.body() {
-      dsl.link_to('Me', 'selfie.com', {id: 'id1', ext_styles: ['class1']})
+      dsl.link_to('Me', 'selfie.com', {id: 'id1', ext_classes: ['class1']})
     }
     output = get_output(dsl)
 
@@ -169,7 +169,7 @@ class HtmlDslTests < Test::Unit::TestCase
   def test_mail_to
     dsl = HtmlDsl.new()
     dsl.body() {
-      dsl.email('Send Money', 'me@gmail.com', {id: 'id1', ext_styles: ['class1']})
+      dsl.email('Send Money', 'me@gmail.com', {id: 'id1', ext_classes: ['class1']})
     }
     output = get_output(dsl)
 

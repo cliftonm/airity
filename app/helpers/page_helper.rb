@@ -19,14 +19,14 @@ module PageHelper
     fz_dsl = FoundationZurbDsl.new(html_dsl)
 
     html_dsl.tags do
-      fz_dsl.row({styles: [styles.header_section]}) do
+      fz_dsl.row({classes: [styles.header_section]}) do
         fz_dsl.columns_for(
             [
                 [4, -> {html_dsl.image('/images/community.jpg')}],
                 [12, -> {
-                  html_dsl.div({styles: [styles.right_justify]}) do
-                    html_dsl.label('Needs and Gifts', {id: 'dd1', styles: [styles.h1_ng]})
-                    html_dsl.label('People Living in Community', {id: 'dd2', styles: [styles.h2_ng]})
+                  html_dsl.div({classes: [styles.right_justify]}) do
+                    html_dsl.label('Needs and Gifts', {id: 'dd1', classes: [styles.h1_ng]})
+                    html_dsl.label('People Living in Community', {id: 'dd2', classes: [styles.h2_ng]})
                     html_dsl.link_to('Sign In', '/sign_in')
                   end
                 }]
@@ -42,16 +42,16 @@ module PageHelper
     fz_dsl = FoundationZurbDsl.new(html_dsl)
 
     html_dsl.tags do
-      fz_dsl.row( {styles: [styles.menu_section]}) do
-        html_dsl.div({ext_styles: ['contain-to-grid sticky']}) do
+      fz_dsl.row( {classes: [styles.menu_section]}) do
+        html_dsl.div({ext_classes: ['contain-to-grid sticky']}) do
           fz_dsl.top_bar() do
             fz_dsl.title_area() do
               fz_dsl.title_name('Needs &amp; Gifts', '#', {id: 'mnuHome'})
               fz_dsl.top_bar_section do
                 fz_dsl.left_menu do
-                  fz_dsl.menu_item('How It Works', {id: 'mnuHowItWorks'}) # , ext_styles: ['active']})
+                  fz_dsl.menu_item('How It Works', {id: 'mnuHowItWorks'}) # , ext_classes: ['active']})
                   fz_dsl.menu_divider
-                  fz_dsl.menu_item('Register', {id: 'mnuRegister'}) #, ext_styles: ['active']})
+                  fz_dsl.menu_item('Register', {id: 'mnuRegister'}) #, ext_classes: ['active']})
                   fz_dsl.menu_divider
                   fz_dsl.menu_item('Public Communities', {id: 'mnuPublicCommunities'})
                 end
@@ -84,7 +84,7 @@ module PageHelper
     html_dsl.tags do
       html_dsl.line_break()
       html_dsl.line_break()
-      fz_dsl.row( {styles: [styles.footer_section]}) do
+      fz_dsl.row( {classes: [styles.footer_section]}) do
         fz_dsl.columns(16) do
           html_dsl.label('&copy; ' + DateTime.now.year.to_s + ' Marc Clifton.  All Rights Reserved.', {id: 'ftr1'})
           html_dsl.email('Contact Us', 'marc.clifton@gmail.com')
@@ -101,6 +101,19 @@ module PageHelper
     js_dsl = JavascriptDsl.new()
 
     on_click_select(js_dsl, ['mnuHowItWorks', 'mnuRegister', 'mnuPublicCommunities'])
+
+    js_dsl.on_click('#mnuHome') {
+      js_dsl.show('#home_text')
+      js_dsl.hide('#how_it_works_text')
+
+      # TODO: Need to remove active from all menus and sidebar hrefs.
+      js_dsl.remove_class('li#mnuHowItWorks', 'active')
+    }
+
+    js_dsl.on_click('#mnuHowItWorks') {
+      js_dsl.hide('#home_text')
+      js_dsl.show('#how_it_works_text')
+    }
 # Doing it very manually:
 =begin
     js_dsl.on_click('a#mnuHowItWorks') do

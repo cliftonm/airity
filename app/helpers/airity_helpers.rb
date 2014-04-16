@@ -2,34 +2,53 @@ module Airity
   # helper to get class names from an array of classes.
 #  class AirityHelpers
 
-  # return nil or a space separated list of class names specified by the :styles and :ext_styles options.
-  # :styles must be is an array of Style instances.
-  # :ext_styles must be an array of strings.
+  # return nil or a space separated list of class names specified by the :classes and :ext_classes options.
+  # :classes must be is an array of Style instances.
+  # :ext_classes must be an array of strings.
   # string get_class_names(Hash options)
   def get_class_names(options)
     ret = nil
     class_names = []
 
-    styles = options[:styles]
+    classes = options[:classes]
 
     # Internal styles using Style class.
-    if styles
-      styles.each{|style|
-        class_names << style.style_name
+    if classes
+      classes.each{|clss|
+        class_names << clss.style_name
       }
     end
 
-    ext_styles = options[:ext_styles]
+    ext_classes = options[:ext_classes]
 
     # External styles as strings.
-    if ext_styles
-      ext_styles.each{|style|
-        class_names << style
+    if ext_classes
+      ext_classes.each{|clss|
+        class_names << clss
       }
     end
 
     if class_names.count > 0
       ret = class_names.join(' ')
+    end
+
+    ret
+  end
+
+  def get_styles(options)
+    ret = nil
+    style_names = []
+
+    styles = options[:styles]
+
+    if styles
+      styles.each{|style|
+        style_names << style
+      }
+    end
+
+    if style_names.count > 0
+      ret = style_names.join(' ')
     end
 
     ret

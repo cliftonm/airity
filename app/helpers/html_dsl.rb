@@ -48,8 +48,9 @@ module Airity
 
     def div(options = {})
       class_names = get_class_names(options)
+      styles = get_styles(options)
       id = get_id(options)
-      @html_gen.div(id, class_names)
+      @html_gen.div(id, class_names, styles)
       yield
       @html_gen.div_end()
 
@@ -98,11 +99,15 @@ module Airity
       nil
     end
 
-    def header(header_num, options = {})
+    def header(header_num, text = nil, options = {})
       class_names = get_class_names(options)
       id = get_id(options)
-      @html_gen.header(header_num, id, class_names)
-      yield
+      @html_gen.header(header_num, text, id, class_names)
+
+      if text.nil?
+        yield
+      end
+
       @html_gen.header_end()
 
       nil

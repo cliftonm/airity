@@ -20,7 +20,7 @@ class FoundationTests < Test::Unit::TestCase
     dsl = HtmlDsl.new()
     fz = FoundationZurbDsl.new(dsl)
     dsl.body() {
-      fz.row({id: 'id1', ext_styles: ['style1']}) {}
+      fz.row({id: 'id1', ext_classes: ['style1']}) {}
     }
     output = get_output(dsl)
 
@@ -31,7 +31,7 @@ class FoundationTests < Test::Unit::TestCase
     dsl = HtmlDsl.new()
     fz = FoundationZurbDsl.new(dsl)
     dsl.body() {
-      fz.columns(2, {id: 'id1', ext_styles: ['style1']}) {}
+      fz.columns(2, {id: 'id1', ext_classes: ['style1']}) {}
     }
     output = get_output(dsl)
 
