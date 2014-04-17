@@ -217,15 +217,16 @@ module Airity
       nil
     end
 
-    def checkbox(model_name, field_name, text, id = nil, klass = nil)
+    def checkbox(model_name, field_name, text = nil, id = nil, klass = nil)
       element = @xdoc.create_element('input')
+      element.html_closing_tag = false
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
       element.append_attribute(@xdoc.create_attribute('id', model_name + '_' + field_name)) if field_name
       element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       element.append_attribute(@xdoc.create_attribute('type', 'checkbox'))
       element.append_attribute(@xdoc.create_attribute('name', "#{model_name}[#{field_name}]"))
-      element.inner_text = text
+      element.inner_text = text if text
 
       nil
     end

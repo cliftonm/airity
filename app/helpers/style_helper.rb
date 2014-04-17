@@ -14,6 +14,7 @@ module StyleHelper
     attr_accessor :div_border
     attr_accessor :color_white
     attr_accessor :css
+    attr_accessor :checkbox_valign
 
     def initialize()
       @header_section = Style.new {
@@ -125,6 +126,14 @@ module StyleHelper
             }
       }
 
+      @checkbox_valign = Style.new {
+        @style_name = 'checkbox-valign'
+        @styles =
+            {
+                vertical_align: '-2px',
+            }
+      }
+
       styles =
           [
               @label_style.get_css(),
@@ -137,6 +146,7 @@ module StyleHelper
               @right_justify.get_css(),
               @div_border.get_css(),
               @color_white.get_css(),
+              @checkbox_valign.get_css(),
           ]
 
       @css = "\r\n<style type='text/css'>\r\n" + styles.join("\r\n") + "</style>\r\n"

@@ -35,6 +35,8 @@ class HomeController < ApplicationController
                   how_it_works_markup(html_dsl)
                   sign_in_markup(html_dsl, fz_dsl, styles)
                   register_markup(html_dsl, fz_dsl, styles)
+                  terms_and_conditions_markup(html_dsl)
+                  privacy_policy_markup(html_dsl)
                 }]
             ]
         )
@@ -99,6 +101,18 @@ class HomeController < ApplicationController
     end
   end
 
+  def privacy_policy_markup(html_dsl)
+    html_dsl.div({id: 'privacy_policy_text', styles: ['display: none']}) do
+      html_dsl.header(3, 'Privacy Policy')
+    end
+  end
+
+  def terms_and_conditions_markup(html_dsl)
+    html_dsl.div({id: 'tanda_text', styles: ['display: none']}) do
+      html_dsl.header(3, 'Terms and Conditions')
+    end
+  end
+
   def register_markup(html_dsl, fz_dsl, styles)
     html_dsl.div({id: 'register_page', styles: ['display: none']}) do
       html_dsl.form("user") do
@@ -149,7 +163,8 @@ class HomeController < ApplicationController
 
             fz_dsl.row do
               fz_dsl.columns(16) do
-                html_dsl.checkbox('ack', '&nbsp;&nbsp;I acknowledge that I have read the Privacy Policy and Terms and Conditions')
+                html_dsl.checkbox('ack', nil, {classes: [styles.checkbox_valign]})
+                html_dsl.label("I acknowledge that I have read the #{inline_privacy_policy(html_dsl)} and #{inline_terms_and_conditions(html_dsl)}")
               end
             end
 
@@ -164,6 +179,14 @@ class HomeController < ApplicationController
         end
       end
     end
+  end
+
+  def inline_privacy_policy(html_dsl)
+    html_dsl.inline(lambda {|dsl| dsl.link_to('Privacy Policy', '#', {id: 'lnkPrivacyPolicy'})})
+  end
+
+  def inline_terms_and_conditions(html_dsl)
+    html_dsl.inline(lambda {|dsl| dsl.link_to('Terms and Conditions', '#', {id: 'lnkTandA'})})
   end
 
   def sign_in_markup(html_dsl, fz_dsl, styles)

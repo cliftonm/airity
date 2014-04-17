@@ -145,7 +145,7 @@ module Airity
       nil
     end
 
-    def checkbox(field_name, text, options = {})
+    def checkbox(field_name, text = nil, options = {})
       class_names = get_class_names(options)
       id = get_id(options)
       @html_gen.checkbox(@current_model_name, field_name, text, id, class_names)
@@ -203,5 +203,17 @@ module Airity
 
       nil
     end
+
+    # string inline(lambda expr(HtmlDsl dsl))
+    def inline(expr)
+      inline_dsl = HtmlDsl.new()              # create a local instance for just this expression
+      expr.(inline_dsl)                       # execute the expression
+      tw = XmlTextWriter.new()                # create a text writer
+      tw.allow_self_closing_tags = false      # HTML5 compliance
+      inline_dsl.html_gen.xdoc.save(tw)       # generate the HTML
+
+      tw.output                               # return the result
+    end
   end
 end
+

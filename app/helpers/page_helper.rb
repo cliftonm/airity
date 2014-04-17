@@ -102,7 +102,7 @@ module PageHelper
   def get_javascript
     js_dsl = JavascriptDsl.new()
     menu_items = ['mnuHowItWorks', 'mnuRegister', 'mnuPublicCommunities', 'mnuPrivacyPolicy', 'mnuTandA', 'mnuSignIn']
-    text_content = ['home_text', 'how_it_works_text', 'sign_in_page', 'register_page']
+    text_content = ['home_text', 'how_it_works_text', 'sign_in_page', 'register_page', 'tanda_text', 'privacy_policy_text']
 
     on_click_make_active(js_dsl, menu_items)
     clear_all_active_menu_items(js_dsl, menu_items)
@@ -130,6 +130,33 @@ module PageHelper
       js_dsl.call_function('hideAllTextContent')
       js_dsl.show('#register_page')
     }
+
+    js_dsl.on_click('#mnuPrivacyPolicy') {
+      js_dsl.call_function('hideAllTextContent')
+      js_dsl.show('#privacy_policy_text')
+    }
+
+    js_dsl.on_click('#mnuTandA') {
+      js_dsl.call_function('hideAllTextContent')
+      js_dsl.show('#tanda_text')
+    }
+
+    # Show the Privacy Policy, activating the sidebar link.
+    js_dsl.on_click('#lnkPrivacyPolicy') {
+      js_dsl.call_function('hideAllTextContent')
+      js_dsl.call_function('clearAllActiveMenuItems')
+      js_dsl.add_class("li#mnuPrivacyPolicy", 'active')
+      js_dsl.show('#privacy_policy_text')
+    }
+
+    # Show the Terms and Conditions, activating the sidebar link.
+    js_dsl.on_click('#lnkTandA') {
+      js_dsl.call_function('hideAllTextContent')
+      js_dsl.call_function('clearAllActiveMenuItems')
+      js_dsl.add_class("li#mnuTandA", 'active')
+      js_dsl.show('#tanda_text')
+    }
+
 # Doing it very manually:
 =begin
     js_dsl.on_click('a#mnuHowItWorks') do
