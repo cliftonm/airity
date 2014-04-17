@@ -1,6 +1,10 @@
+require 'recaptcha/client_helper'
+
 # include Airity
 include PageHelper
 include StyleHelper
+
+include Recaptcha::ClientHelper
 
 class HomeController < ApplicationController
   def index
@@ -162,11 +166,20 @@ class HomeController < ApplicationController
             end
 
             fz_dsl.row do
-              fz_dsl.columns(16) do
+              fz_dsl.columns(16, {ext_classes: ['small-offset-2']}) do
                 html_dsl.checkbox('ack', nil, {classes: [styles.checkbox_valign]})
                 html_dsl.label("I acknowledge that I have read the #{inline_privacy_policy(html_dsl)} and #{inline_terms_and_conditions(html_dsl)}")
               end
             end
+
+            fz_dsl.row do
+              fz_dsl.columns(16, {ext_classes: ['small-offset-4']}) do
+                recaptcha_html = recaptcha_tags()
+                html_dsl.inject(recaptcha_html)
+              end
+            end
+
+            html_dsl.line_break()
 
             fz_dsl.row do
               fz_dsl.columns(1, {ext_classes: ['small-offset-7']}) do

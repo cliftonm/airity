@@ -214,6 +214,13 @@ module Airity
 
       tw.output                               # return the result
     end
+
+    # void inject(string html)
+    def inject(html)
+      @html_gen.inject(html)
+
+      nil
+    end
   end
 end
 

@@ -264,6 +264,13 @@ module Airity
       nil
     end
 
+    def inject(html)
+      element = @xdoc.create_xml_fragment(html)
+      @current_node.append_child(element)
+
+      nil
+    end
+
     def pop()
       @current_node = @current_node.parent_node
 
