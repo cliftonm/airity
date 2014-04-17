@@ -199,7 +199,17 @@ module Airity
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
       element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
-      element.inner_text = text
+      element.inner_text = text if text
+
+      nil
+    end
+
+    def p_block(id = nil, klass = nil)
+      element = @xdoc.create_element('p')
+      @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
+      @current_node = element
 
       nil
     end

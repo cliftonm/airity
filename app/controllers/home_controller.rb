@@ -173,7 +173,9 @@ class HomeController < ApplicationController
             fz_dsl.row do
               fz_dsl.columns(16, {ext_classes: ['small-offset-4']}) do
                 recaptcha_html = recaptcha_tags()
-                html_dsl.inject(recaptcha_html)
+                html_dsl.p_block() do
+                  html_dsl.inject(recaptcha_html)
+                end
               end
             end
 

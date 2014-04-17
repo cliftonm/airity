@@ -185,6 +185,16 @@ module Airity
       nil
     end
 
+    def p_block(options = {})
+      class_names = get_class_names(options)
+      id = get_id(options)
+      @html_gen.p_block(id, class_names)
+      yield
+      @html_gen.pop()
+
+      nil
+    end
+
     def list(options = {})
       class_names = get_class_names(options)
       @html_gen.ul(class_names)
