@@ -50,11 +50,11 @@ module PageHelper
                 fz_dsl.left_menu do
                   fz_dsl.menu_item('How It Works', {id: 'mnuHowItWorks'}) # , ext_classes: ['active']})
                   fz_dsl.menu_divider
-                  fz_dsl.menu_item('Register', {id: 'mnuRegister'}) #, ext_classes: ['active']})
-                  fz_dsl.menu_divider
                   fz_dsl.menu_item('Public Communities', {id: 'mnuPublicCommunities'})
                 end
                 fz_dsl.right_menu do
+                  fz_dsl.menu_item('Register', {id: 'mnuRegister'}) #, ext_classes: ['active']})
+                  fz_dsl.menu_divider
                   fz_dsl.menu_item('Sign In', {id: 'mnuSignIn'})
 =begin
                   fz_dsl.menu_item('Menu 3')
@@ -102,7 +102,7 @@ module PageHelper
   def get_javascript
     js_dsl = JavascriptDsl.new()
     menu_items = ['mnuHowItWorks', 'mnuRegister', 'mnuPublicCommunities', 'mnuPrivacyPolicy', 'mnuTandA', 'mnuSignIn']
-    text_content = ['home_text', 'how_it_works_text', 'sign_in_page']
+    text_content = ['home_text', 'how_it_works_text', 'sign_in_page', 'register_page']
 
     on_click_make_active(js_dsl, menu_items)
     clear_all_active_menu_items(js_dsl, menu_items)
@@ -124,6 +124,11 @@ module PageHelper
     js_dsl.on_click('#mnuSignIn') {
       js_dsl.call_function('hideAllTextContent')
       js_dsl.show('#sign_in_page')
+    }
+
+    js_dsl.on_click('#mnuRegister') {
+      js_dsl.call_function('hideAllTextContent')
+      js_dsl.show('#register_page')
     }
 # Doing it very manually:
 =begin
@@ -185,6 +190,7 @@ module PageHelper
   def get_output(dsl)
     tw = XmlTextWriter.new()
     tw.formatting = :indented
+    tw.allow_self_closing_tags = false
     dsl.html_gen.xdoc.save(tw)
 
     tw.output

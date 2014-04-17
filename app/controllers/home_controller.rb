@@ -34,6 +34,7 @@ class HomeController < ApplicationController
                   home_text_markup(html_dsl)
                   how_it_works_markup(html_dsl)
                   sign_in_markup(html_dsl, fz_dsl, styles)
+                  register_markup(html_dsl, fz_dsl, styles)
                 }]
             ]
         )
@@ -57,15 +58,6 @@ class HomeController < ApplicationController
   end
 
   private
-
-  # TODO: Dupicate code!
-  def get_output(dsl)
-    tw = XmlTextWriter.new()
-    tw.formatting = :indented
-    dsl.html_gen.xdoc.save(tw)
-
-    tw.output
-  end
 
   def home_text_markup(html_dsl)
     html_dsl.div({id: 'home_text'}) do
@@ -107,45 +99,110 @@ class HomeController < ApplicationController
     end
   end
 
+  def register_markup(html_dsl, fz_dsl, styles)
+    html_dsl.div({id: 'register_page', styles: ['display: none']}) do
+      html_dsl.form("user") do
+        fz_dsl.row({classes: [styles.content_section]}) do
+          fz_dsl.columns(14, {classes: [styles.div_border]}) do # ext_classes: ['small-offset-1']}) do
+            fz_dsl.row do
+              fz_dsl.columns_for(
+                  [
+                      [5, -> {html_dsl.label('First Name:', {id: 'first_name', classes: [styles.label_style, styles.right_justify]})}],
+                      [6, -> {html_dsl.text_field({id: 'first_name'})}],
+                  ])
+            end
+            fz_dsl.row do
+              fz_dsl.columns_for(
+                  [
+                      [5, -> {html_dsl.label('Last Name:', {id: 'last_name', classes: [styles.label_style, styles.right_justify]})}],
+                      [6, -> {html_dsl.text_field({id: 'last_name'})}],
+                  ])
+            end
+            fz_dsl.row do
+              fz_dsl.columns_for(
+                  [
+                      [5, -> {html_dsl.label('Account Name:', {id: 'acct_name', classes: [styles.label_style, styles.right_justify]})}],
+                      [6, -> {html_dsl.text_field({id: 'acct_name'})}],
+                  ])
+            end
+            fz_dsl.row do
+              fz_dsl.columns_for(
+                  [
+                      [5, -> {html_dsl.label('Email:', {id: 'email', classes: [styles.label_style, styles.right_justify]})}],
+                      [6, -> {html_dsl.text_field({id: 'email'})}],
+                  ])
+            end
+            fz_dsl.row do
+              fz_dsl.columns_for(
+                  [
+                      [5, -> {html_dsl.label('Password:', {id: 'password', classes: [styles.label_style, styles.right_justify]})}],
+                      [6, -> {html_dsl.text_field({id: 'password'})}],
+                  ])
+            end
+            fz_dsl.row do
+              fz_dsl.columns_for(
+                  [
+                      [5, -> {html_dsl.label('Repeat Password:', {id: 'repeat_password', classes: [styles.label_style, styles.right_justify]})}],
+                      [6, -> {html_dsl.text_field({id: 'repeat_password'})}],
+                  ])
+            end
+
+            fz_dsl.row do
+              fz_dsl.columns(16) do
+                html_dsl.checkbox('ack', '&nbsp;&nbsp;I acknowledge that I have read the Privacy Policy and Terms and Conditions')
+              end
+            end
+
+            fz_dsl.row do
+              fz_dsl.columns(1, {ext_classes: ['small-offset-7']}) do
+                html_dsl.post_button("Sign In")
+              end
+            end
+
+            fz_dsl.row do html_dsl.line_break() end
+          end
+        end
+      end
+    end
+  end
+
   def sign_in_markup(html_dsl, fz_dsl, styles)
     html_dsl.div({id: 'sign_in_page', styles: ['display: none']}) do
       html_dsl.form("user") do
         fz_dsl.row({classes: [styles.content_section]}) do
-          fz_dsl.columns(8, {ext_classes: ['small-offset-3']}) do
-            html_dsl.div({classes: [styles.div_border]}) do
-              fz_dsl.row do
-                fz_dsl.columns_for(
-                  [
-                   [5, -> {html_dsl.label('Account Name:', {id: 'acct_name', classes: [styles.label_style, styles.right_justify]})}],
-                   [11, -> {html_dsl.text_field({id: 'acct_name'})}],
-                  ])
-              end
-              fz_dsl.row do
-                fz_dsl.columns_for(
-                  [
-                    [5, -> {html_dsl.label('Password:', {id: 'password', classes: [styles.label_style, styles.right_justify]})}],
-                    [11, -> {html_dsl.text_field({id: 'password'})}],
-                  ])
-              end
+          fz_dsl.columns(9, {classes: [styles.div_border], ext_classes: ['small-offset-2']}) do
+            fz_dsl.row do
+              fz_dsl.columns_for(
+                [
+                 [5, -> {html_dsl.label('Account Name:', {id: 'acct_name', classes: [styles.label_style, styles.right_justify]})}],
+                 [11, -> {html_dsl.text_field({id: 'acct_name'})}],
+                ])
+            end
+            fz_dsl.row do
+              fz_dsl.columns_for(
+                [
+                  [5, -> {html_dsl.label('Password:', {id: 'password', classes: [styles.label_style, styles.right_justify]})}],
+                  [11, -> {html_dsl.text_field({id: 'password'})}],
+                ])
+            end
 
-              fz_dsl.row do
-                fz_dsl.columns(1, {ext_classes: ['small-offset-7']}) do
-                  html_dsl.post_button("Sign In")
-                end
+            fz_dsl.row do
+              fz_dsl.columns(1, {ext_classes: ['small-offset-7']}) do
+                html_dsl.post_button("Sign In")
               end
+            end
 
-              fz_dsl.row do html_dsl.line_break() end
+            fz_dsl.row do html_dsl.line_break() end
 
-              fz_dsl.row do
-                fz_dsl.columns(16) do
-                  html_dsl.label('Forgot your account name or password?')
-                end
+            fz_dsl.row do
+              fz_dsl.columns(16) do
+                html_dsl.label('Forgot your account name or password?')
               end
+            end
 
-              fz_dsl.row do
-                fz_dsl.columns(16) do
-                  html_dsl.label('Don\'t have an account yet?')
-                end
+            fz_dsl.row do
+              fz_dsl.columns(16) do
+                html_dsl.label('Don\'t have an account yet?')
               end
             end
           end

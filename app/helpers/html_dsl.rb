@@ -145,6 +145,14 @@ module Airity
       nil
     end
 
+    def checkbox(field_name, text, options = {})
+      class_names = get_class_names(options)
+      id = get_id(options)
+      @html_gen.checkbox(@current_model_name, field_name, text, id, class_names)
+
+      nil
+    end
+
     def image(image_name, options = {})
       class_names = get_class_names(options)
       id = get_id(options)

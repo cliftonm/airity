@@ -43,7 +43,7 @@ module Airity
       rem_width = 16
       str = ''
 
-      col_dsl.each_with_index{|col|
+      col_dsl.each{|col|
         columns(col[0]) do
           col[1].()
         end

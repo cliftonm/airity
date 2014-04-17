@@ -157,6 +157,7 @@ module Airity
 
     def line_break()
       element = @xdoc.create_element('br')
+      element.html_closing_tag = false
       @current_node.append_child(element)
 
       nil
@@ -178,6 +179,7 @@ module Airity
 
     def text_field(model_name, field_name = nil, id = nil, klass = nil)
       element = @xdoc.create_element('input')
+      element.html_closing_tag = false
       @current_node.append_child(element)
 
       # TODO: throw exception if both field_name and id are specified
@@ -204,6 +206,7 @@ module Airity
 
     def post_button(label, id = nil, klass = nil)
       element = @xdoc.create_element('input')
+      element.html_closing_tag = false
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
       element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
@@ -214,8 +217,22 @@ module Airity
       nil
     end
 
+    def checkbox(model_name, field_name, text, id = nil, klass = nil)
+      element = @xdoc.create_element('input')
+      @current_node.append_child(element)
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+      element.append_attribute(@xdoc.create_attribute('id', model_name + '_' + field_name)) if field_name
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
+      element.append_attribute(@xdoc.create_attribute('type', 'checkbox'))
+      element.append_attribute(@xdoc.create_attribute('name', "#{model_name}[#{field_name}]"))
+      element.inner_text = text
+
+      nil
+    end
+
     def image(image_name, id = nil, klass = nil)
       element = @xdoc.create_element('img')
+      element.html_closing_tag = false
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', id)) if id
       element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
