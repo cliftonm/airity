@@ -129,7 +129,7 @@ class HomeController < ApplicationController
               end
 
               fz_dsl.row do
-                fz_dsl.columns(1) do
+                fz_dsl.columns(1, {ext_classes: ['small-offset-7']}) do
                   html_dsl.post_button("Sign In")
                 end
               end
