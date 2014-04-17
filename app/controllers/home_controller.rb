@@ -1,5 +1,3 @@
-require 'recaptcha/client_helper'
-
 # include Airity
 include PageHelper
 include StyleHelper
