@@ -60,6 +60,8 @@ So, write a function to determine what state the presentation should be in, and 
 
 Examples
 ==
+NOTE: AS OF 4/17/2014, THESE EXAMPLE ARE OUTDATED.  I will update the examples soon.
+
 Note that we use Slim and SASS for my markup, so you'll see this syntax in view pages.
 
 All of these example are likely to change at this point!
