@@ -1,8 +1,8 @@
 development:
   adapter: postgresql
   database: automation-test_development
-  username: Interacx
-  password: laranzu
+  username: [your username here]
+  password: [your password here]
   host: localhost
 
 # Warning: The database defined as "test" will be erased and
