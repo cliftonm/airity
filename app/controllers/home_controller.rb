@@ -61,6 +61,10 @@ class HomeController < ApplicationController
 
   end
 
+  def test2
+
+  end
+
   private
 
   def home_text_markup(html_dsl)
@@ -124,7 +128,7 @@ class HomeController < ApplicationController
               fz_dsl.columns_for(
                   [
                       [5, -> {html_dsl.label('First Name:', {id: 'first_name', classes: [styles.label_style, styles.right_justify]})}],
-                      [6, -> {html_dsl.text_field({id: 'first_name'})}],
+                      [6, -> {html_dsl.text_field({id: 'first_name', field_name: 'first_name'})}],
                   ])
             end
             fz_dsl.row do
@@ -183,7 +187,7 @@ class HomeController < ApplicationController
 
             fz_dsl.row do
               fz_dsl.columns(1, {ext_classes: ['small-offset-7']}) do
-                html_dsl.post_button("Sign In")
+                html_dsl.post_button("Register")
               end
             end
 

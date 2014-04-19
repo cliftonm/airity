@@ -4,7 +4,6 @@ AutomationTest::Application.routes.draw do
   get "home/index"
   get "home/generic_view" => "home#generic_view"
   get "home/new" => "home#new"
-  get "test_foundation" => "home#test_foundation"
-  get "test_jquery" => "home#test_jquery"
+  post "/user" => "users#post"
   root :to=>"home#new"
 end

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.15'
+gem 'rails', '3.2.17'
 
 gem 'clifton_lib', '0.0.7'
 gem 'recaptcha', :require => 'recaptcha/rails'
@@ -10,8 +10,8 @@ gem 'recaptcha', :require => 'recaptcha/rails'
 
 gem 'pg'
 
-gem 'thin'
 gem 'sass'
+gem 'thin'
 gem 'slim'
 # 5.2 is broken regarding popup menus.  Probably something I'm screwing up.
 # Read / test the setup here: https://github.com/zurb/foundation-rails
@@ -23,8 +23,8 @@ gem 'foundation-rails', '5.0.2.0'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
+  gem 'sass-rails'
+  gem 'coffee-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
