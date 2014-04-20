@@ -62,7 +62,11 @@ class HomeController < ApplicationController
   end
 
   def test2
+    @user = User.new()
+  end
 
+  def upload
+    q = 5
   end
 
   private
@@ -206,23 +210,31 @@ class HomeController < ApplicationController
     html_dsl.inline(lambda {|dsl| dsl.link_to('Terms and Conditions', '#', {id: 'lnkTandA'})})
   end
 
+  def add_route(url, controller, method)
+    Rails.application.routes.disable_clear_and_finalize = true
+    Rails.application.routes.draw do
+      post "/#{url}" => "#{controller}##{method}", :as => "#{controller}_#{method}"
+    end
+  end
+
   def sign_in_markup(html_dsl, fz_dsl, styles)
     html_dsl.div({id: 'sign_in_page', styles: ['display: none']}) do
-      html_dsl.form("user") do
+      html_dsl.form("user", {action: 'sign_in'}) do
+        add_route('sign_in', 'users', 'sign_in')
         fz_dsl.row({classes: [styles.content_section]}) do
           fz_dsl.columns(9, {classes: [styles.div_border], ext_classes: ['small-offset-2']}) do
             fz_dsl.row do
               fz_dsl.columns_for(
                 [
                  [5, -> {html_dsl.label('Account Name:', {id: 'acct_name', classes: [styles.label_style, styles.right_justify]})}],
-                 [11, -> {html_dsl.text_field({id: 'acct_name'})}],
+                 [11, -> {html_dsl.text_field({id: 'acct_name', field_name: 'acct_name'})}],
                 ])
             end
             fz_dsl.row do
               fz_dsl.columns_for(
                 [
                   [5, -> {html_dsl.label('Password:', {id: 'password', classes: [styles.label_style, styles.right_justify]})}],
-                  [11, -> {html_dsl.text_field({id: 'password'})}],
+                  [11, -> {html_dsl.password_field({id: 'password', field_name: 'password'})}],
                 ])
             end
 

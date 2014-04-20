@@ -61,9 +61,18 @@ module Airity
     id
   end
 
+  # string action = get_action(Hash options)
+  def get_action(options)
+    action = options[:action]
+
+    action
+  end
+
   # string[] data = get_data(Hash options)
   def get_data(options)
     data = options[:data]
+
+    data
   end
 
   # Returns nil or the value of the :field_name key in options

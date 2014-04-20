@@ -1,4 +1,6 @@
+require 'linguistics'
 require 'clifton_lib/xml/xml_document'
+
 include CliftonXml
 
 module Airity
@@ -9,6 +11,7 @@ module Airity
     def initialize()
       @xdoc = XmlDocument.new()
       @current_node = @xdoc
+      Linguistics.use :en
     end
 
     def leading_underscore(str)
@@ -34,11 +37,17 @@ module Airity
       nil
     end
 
-    def form_for(model_name)
+    def form_for(model_name, action = nil)
       element = @xdoc.create_element('form')
       @current_node.append_child(element)
       element.append_attribute(@xdoc.create_attribute('id', 'new_'+model_name))
-      element.append_attribute(@xdoc.create_attribute('action', '/'+model_name))
+
+      if action
+        element.append_attribute(@xdoc.create_attribute('action', '/'+action))
+      else
+        element.append_attribute(@xdoc.create_attribute('action', '/'+model_name.en.plural))
+      end
+
       element.append_attribute(@xdoc.create_attribute('class', 'new_'+model_name))
       element.append_attribute(@xdoc.create_attribute('method', 'post'))
       @current_node = element
@@ -190,6 +199,24 @@ module Airity
 
       element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       element.append_attribute(@xdoc.create_attribute('type', 'text'))
+
+      nil
+    end
+
+    # TODO: All but the last line is code duplication of text_field
+    def password_field(model_name, field_name = nil, id = nil, klass = nil)
+      element = @xdoc.create_element('input')
+      element.html_closing_tag = false
+      @current_node.append_child(element)
+
+      # TODO: throw exception if both field_name and id are specified
+      element.append_attribute(@xdoc.create_attribute('id', model_name + '_' + field_name)) if field_name
+      element.append_attribute(@xdoc.create_attribute('id', id)) if id
+
+      element.append_attribute(@xdoc.create_attribute('name', model_name + bracket(field_name))) if field_name
+
+      element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
+      element.append_attribute(@xdoc.create_attribute('type', 'password'))
 
       nil
     end

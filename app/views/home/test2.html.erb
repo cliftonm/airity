@@ -1,3 +1,5 @@
-<p>
-  <%= recaptcha_tags %>
-</p>
+<form action="/upload" class="new_user" id="new_user" method="post">
+  <label for="user_name">Name</label>:
+  <input id="user_name" name="user[name]" size="30" type="text" /><br />
+  <input name="commit" type="submit" value="Sign In" />
+</form>

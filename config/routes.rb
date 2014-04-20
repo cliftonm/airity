@@ -4,6 +4,11 @@ AutomationTest::Application.routes.draw do
   get "home/index"
   get "home/generic_view" => "home#generic_view"
   get "home/new" => "home#new"
-  post "/user" => "users#post"
+  get "/test2" => "home#test2"
+
+  # post "/user" => "users#create"
+  # post "/upload" => "home#upload"
+  # post "/upload" => "home#upload"
+
   root :to=>"home#new"
 end
