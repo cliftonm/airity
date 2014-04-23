@@ -15,6 +15,7 @@ module StyleHelper
     attr_accessor :color_white
     attr_accessor :css
     attr_accessor :checkbox_valign
+    attr_accessor :validation_error
 
     def initialize()
       @header_section = Style.new {
@@ -134,6 +135,18 @@ module StyleHelper
             }
       }
 
+      @validation_error = Style.new {
+        @style_name = 'validation-error'
+        @styles =
+            {
+                margin_top: '0px',
+                padding_top: '0px',
+                color: '#FF0000',
+                padding_bottom: '4px',
+                vertical_align: 'top',
+            }
+      }
+
       styles =
           [
               @label_style.get_css(),
@@ -147,6 +160,7 @@ module StyleHelper
               @div_border.get_css(),
               @color_white.get_css(),
               @checkbox_valign.get_css(),
+              @validation_error.get_css(),
           ]
 
       @css = "\r\n<style type='text/css'>\r\n" + styles.join("\r\n") + "</style>\r\n"

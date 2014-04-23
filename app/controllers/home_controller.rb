@@ -4,6 +4,8 @@ include StyleHelper
 
 include Recaptcha::ClientHelper
 
+require 'libxml'
+
 class HomeController < ApplicationController
   def index
   end
@@ -125,14 +127,15 @@ class HomeController < ApplicationController
 
   def register_markup(html_dsl, fz_dsl, styles)
     html_dsl.div({id: 'register_page', styles: ['display: none']}) do
-      html_dsl.form("user") do
+      html_dsl.form("user", {id: 'register_user', action: 'register'}) do
+        add_route('post', 'register', 'users', 'register')
         fz_dsl.row({classes: [styles.content_section]}) do
           fz_dsl.columns(14, {classes: [styles.div_border]}) do # ext_classes: ['small-offset-1']}) do
             fz_dsl.row do
               fz_dsl.columns_for(
                   [
                       [5, -> {html_dsl.label('First Name:', {id: 'first_name', classes: [styles.label_style, styles.right_justify]})}],
-                      [6, -> {html_dsl.text_field({id: 'first_name', field_name: 'first_name'})}],
+                      [6, -> {html_dsl.text_field({id: 'first_name', field_name: 'first_name', data: ['required']})}],
                   ])
             end
             fz_dsl.row do
@@ -210,17 +213,30 @@ class HomeController < ApplicationController
     html_dsl.inline(lambda {|dsl| dsl.link_to('Terms and Conditions', '#', {id: 'lnkTandA'})})
   end
 
-  def add_route(url, controller, method)
-    Rails.application.routes.disable_clear_and_finalize = true
-    Rails.application.routes.draw do
-      post "/#{url}" => "#{controller}##{method}", :as => "#{controller}_#{method}"
+  # Add the route if it doesn't exist.
+  # Example: add_route('post', 'sign_in', 'users', 'sign_in')
+  def add_route(verb, url, controller, method)
+    route = controller + '_' + method
+    if Rails.application.routes.named_routes.routes[route.to_sym].nil?
+      Rails.application.routes.disable_clear_and_finalize = true
+      Rails.application.routes.draw do
+        meth = method(verb.downcase)
+        meth.call("/#{url}" => "#{controller}##{method}", :as => "#{controller}_#{method}")
+      end
+    else
+      # Check that we're adding the same verb and route.
+      # TODO: Verify the URL is the same too.
+      route_verb = Rails.application.routes.named_routes.routes[route.to_sym].verb
+      unless route_verb.to_s.upcase =~ /#{verb.upcase}/
+        raise "Attempting to use a different verb #{verb} for route #{controller}_#{method}."
+      end
     end
   end
 
   def sign_in_markup(html_dsl, fz_dsl, styles)
     html_dsl.div({id: 'sign_in_page', styles: ['display: none']}) do
-      html_dsl.form("user", {action: 'sign_in'}) do
-        add_route('sign_in', 'users', 'sign_in')
+      html_dsl.form("user", {id: 'sign_in_user', action: 'sign_in'}) do
+        add_route('post', 'sign_in', 'users', 'sign_in')
         fz_dsl.row({classes: [styles.content_section]}) do
           fz_dsl.columns(9, {classes: [styles.div_border], ext_classes: ['small-offset-2']}) do
             fz_dsl.row do

@@ -61,6 +61,13 @@ module Airity
 
       ''
     end
+
+    def validate(tag)
+      @output << %Q|$('#{tag}').validate({errorClass: "validation-error"});|
+
+      ''
+    end
   end
 end
+
 

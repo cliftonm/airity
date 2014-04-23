@@ -104,6 +104,8 @@ module PageHelper
     menu_items = ['mnuHowItWorks', 'mnuRegister', 'mnuPublicCommunities', 'mnuPrivacyPolicy', 'mnuTandA', 'mnuSignIn']
     text_content = ['home_text', 'how_it_works_text', 'sign_in_page', 'register_page', 'tanda_text', 'privacy_policy_text']
 
+    js_dsl.validate('#register_user')
+
     on_click_make_active(js_dsl, menu_items)
     clear_all_active_menu_items(js_dsl, menu_items)
     hide_all_text_content(js_dsl, text_content)

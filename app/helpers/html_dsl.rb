@@ -40,7 +40,8 @@ module Airity
     def form(model_name, options = {})
       @current_model_name = model_name
       action = get_action(options)
-      @html_gen.form_for(model_name, action)
+      id = get_id(options)
+      @html_gen.form_for(model_name, action, id)
       yield
       @html_gen.form_end()
 
@@ -133,7 +134,8 @@ module Airity
       class_names = get_class_names(options)
       id = get_id(options)
       field_name = get_field_name(options)
-      @html_gen.text_field(@current_model_name, field_name, id, class_names)
+      data = get_data(options)
+      @html_gen.text_field(@current_model_name, field_name, id, class_names, data)
 
       nil
     end

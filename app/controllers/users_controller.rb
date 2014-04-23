@@ -1,14 +1,6 @@
 class UsersController < ApplicationController
-  def post
-    q = 5
-  end
-
-  def create
-    q = 5
-  end
-
-  def upload
-    q = 5
+  def register
+    redirect_to :root
   end
 
   def sign_in

@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require foundation
+//= require jquery.validate
+//= require jquery.validate.additional-methods
 //= require_tree .
 
 $(function(){ $(document).foundation(); });

@@ -37,10 +37,15 @@ module Airity
       nil
     end
 
-    def form_for(model_name, action = nil)
+    def form_for(model_name, action = nil, id = nil)
       element = @xdoc.create_element('form')
       @current_node.append_child(element)
-      element.append_attribute(@xdoc.create_attribute('id', 'new_'+model_name))
+
+      if id
+        element.append_attribute(@xdoc.create_attribute('id', id))
+      else
+        element.append_attribute(@xdoc.create_attribute('id', 'new_'+model_name))
+      end
 
       if action
         element.append_attribute(@xdoc.create_attribute('action', '/'+action))
@@ -186,7 +191,7 @@ module Airity
       nil
     end
 
-    def text_field(model_name, field_name = nil, id = nil, klass = nil)
+    def text_field(model_name, field_name = nil, id = nil, klass = nil, data = nil)
       element = @xdoc.create_element('input')
       element.html_closing_tag = false
       @current_node.append_child(element)
@@ -199,6 +204,14 @@ module Airity
 
       element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       element.append_attribute(@xdoc.create_attribute('type', 'text'))
+
+      # TODO: Duplicate code
+      if data
+        data.each {|item|
+          item = item.gsub('_', '-')
+          element.append_attribute(@xdoc.create_attribute(item, nil))
+        }
+      end
 
       nil
     end
