@@ -1,0 +1,40 @@
+<Presentations>
+  <Presentation
+          Name = "User Registration"
+          View = "user"
+          Columns="14"
+          Classes="div-border"
+          LabelClasses="label-style right-justify"
+          LabelColumns="5"
+          FieldColumns="6">
+    <Metadata Field="first_name" Control="TextField" Label="First Name:"/>
+    <Metadata Field="last_name" Control="TextField" Label="First Name:"/>
+    <Metadata Field="account_name" Control="TextField" Label="Account Name:"/>
+    <Metadata Field="email" Control="TextField" Label="Email:"/>
+    <Metadata Field="password1" Control="PasswordField" Label="Password:"/>
+    <Metadata Field="password2" Control="PasswordField" Label="Repeat Password:"/>
+    <Metadata Field="ack"
+              Control="Checkbox"
+              Columns="16"
+              Classes="small-offset-2"
+              Inline="true"
+              Label="I acknowledge that I have read the #{inline_privacy_policy(html_dsl)} and #{inline_terms_and_conditions(html_dsl)}"/>
+  </Presentation>
+
+  <Presentation
+          Name = "Sign In"
+          View = "user"
+          Columns="9"
+          Classes="div-border small-offset-2"
+          LabelClasses="label-style right-justify"
+          LabelColumns="5"
+          FieldColumns="11">
+    <Metadata Field="account_name" Control="TextField" Label="Account Name:"/>
+    <Metadata Field="password" Control="PasswordField" Label="Password:"/>
+    <Metadata Control="LineBreak" Inline="true"/>
+    <Metadata Control="LinkTo" Columns="16" Inline="true" Label="Forgot your account name or password?" URL="#"/>
+    <Metadata Control="LineBreak" Inline="true"/>
+    <Metadata Control="LinkTo" Columns="16" Inline="true" Label="Don't have an account yet?" URL="#"/>
+    <Metadata Control="LineBreak" Inline="true"/>
+  </Presentation>
+</Presentations>

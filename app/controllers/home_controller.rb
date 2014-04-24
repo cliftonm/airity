@@ -2,17 +2,21 @@
 include PageHelper
 include StyleHelper
 
+include SchemaHelper
+include PresentationHelper
+
 include Recaptcha::ClientHelper
 
+# include CliftonSchema
+
 require 'libxml'
+include LibXML
 
 class HomeController < ApplicationController
   def index
   end
 
   def new
-    @user = User.new
-
     # Accumulate all styles as an internal style sheet.
     # External / Internal / Inline: http://www.w3schools.com/css/css_howto.asp
     styles = AppStyles.new()
@@ -37,8 +41,8 @@ class HomeController < ApplicationController
                 [12, -> {
                   home_text_markup(html_dsl)
                   how_it_works_markup(html_dsl)
-                  sign_in_markup(html_dsl, fz_dsl, styles)
-                  register_markup(html_dsl, fz_dsl, styles)
+                  sign_in_markup2(html_dsl, fz_dsl, styles)
+                  register_markup2(html_dsl, fz_dsl, styles)
                   terms_and_conditions_markup(html_dsl)
                   privacy_policy_markup(html_dsl)
                 }]
@@ -125,9 +129,45 @@ class HomeController < ApplicationController
     end
   end
 
+  def inline_privacy_policy(html_dsl)
+    html_dsl.inline(lambda {|dsl| dsl.link_to('Privacy Policy', '#', {id: 'lnkPrivacyPolicy'})})
+  end
+
+  def inline_terms_and_conditions(html_dsl)
+    html_dsl.inline(lambda {|dsl| dsl.link_to('Terms and Conditions', '#', {id: 'lnkTandA'})})
+  end
+
+  # Add the route if it doesn't exist.
+  # Example: add_route('post', 'sign_in', 'users', 'sign_in')
+  def add_route(verb, url, controller, method)
+    route = controller + '_' + method
+    if Rails.application.routes.named_routes.routes[route.to_sym].nil?
+      Rails.application.routes.disable_clear_and_finalize = true
+      Rails.application.routes.draw do
+        meth = method(verb.downcase)
+        meth.call("/#{url}" => "#{controller}##{method}", :as => "#{controller}_#{method}")
+      end
+    else
+      # Check that we're adding the same verb and route.
+      # TODO: Verify the URL is the same too.
+      route_verb = Rails.application.routes.named_routes.routes[route.to_sym].verb
+      unless route_verb.to_s.upcase =~ /#{verb.upcase}/
+        raise "Attempting to use a different verb #{verb} for route #{controller}_#{method}."
+      end
+    end
+  end
+
+  def sign_in_markup2(html_dsl, fz_dsl, styles)
+    html_dsl.div({id: 'sign_in_page', styles: ['display: none']}) do
+      presentation("Sign In", html_dsl, fz_dsl, styles)
+    end
+  end
+
   def register_markup2(html_dsl, fz_dsl, styles)
+    add_route('post', 'register', 'users', 'register')
+
     html_dsl.div({id: 'register_page', styles: ['display: none']}) do
-      Presentation("User Registration", html_dsl, fz_dsl) do
+      presentation("User Registration", html_dsl, fz_dsl, styles) do
         fz_dsl.row do
           fz_dsl.columns(16, {ext_classes: ['small-offset-4']}) do
             recaptcha_html = recaptcha_tags()
@@ -149,6 +189,10 @@ class HomeController < ApplicationController
       end
     end
   end
+end
+
+# The old way:
+=begin
 
   def register_markup(html_dsl, fz_dsl, styles)
     html_dsl.div({id: 'register_page', styles: ['display: none']}) do
@@ -237,77 +281,48 @@ class HomeController < ApplicationController
     end
   end
 
-  def inline_privacy_policy(html_dsl)
-    html_dsl.inline(lambda {|dsl| dsl.link_to('Privacy Policy', '#', {id: 'lnkPrivacyPolicy'})})
-  end
+ def sign_in_markup(html_dsl, fz_dsl, styles)
+  html_dsl.div({id: 'sign_in_page', styles: ['display: none']}) do
+    html_dsl.form("user", {id: 'sign_in_user', action: 'sign_in'}) do
+      add_route('post', 'sign_in', 'users', 'sign_in')
+      fz_dsl.row({classes: [styles.content_section]}) do
+        fz_dsl.columns(9, {classes: [styles.div_border], ext_classes: ['small-offset-2']}) do
+          fz_dsl.row do
+            fz_dsl.columns_for(
+              [
+               [5, -> {html_dsl.label('Account Name:', {id: 'acct_name', classes: [styles.label_style, styles.right_justify]})}],
+               [11, -> {html_dsl.text_field({id: 'acct_name', field_name: 'acct_name'})}],
+              ])
+          end
+          fz_dsl.row do
+            fz_dsl.columns_for(
+              [
+                [5, -> {html_dsl.label('Password:', {id: 'password', classes: [styles.label_style, styles.right_justify]})}],
+                [11, -> {html_dsl.password_field({id: 'password', field_name: 'password'})}],
+              ])
+          end
 
-  def inline_terms_and_conditions(html_dsl)
-    html_dsl.inline(lambda {|dsl| dsl.link_to('Terms and Conditions', '#', {id: 'lnkTandA'})})
-  end
-
-  # Add the route if it doesn't exist.
-  # Example: add_route('post', 'sign_in', 'users', 'sign_in')
-  def add_route(verb, url, controller, method)
-    route = controller + '_' + method
-    if Rails.application.routes.named_routes.routes[route.to_sym].nil?
-      Rails.application.routes.disable_clear_and_finalize = true
-      Rails.application.routes.draw do
-        meth = method(verb.downcase)
-        meth.call("/#{url}" => "#{controller}##{method}", :as => "#{controller}_#{method}")
-      end
-    else
-      # Check that we're adding the same verb and route.
-      # TODO: Verify the URL is the same too.
-      route_verb = Rails.application.routes.named_routes.routes[route.to_sym].verb
-      unless route_verb.to_s.upcase =~ /#{verb.upcase}/
-        raise "Attempting to use a different verb #{verb} for route #{controller}_#{method}."
-      end
-    end
-  end
-
-  def sign_in_markup(html_dsl, fz_dsl, styles)
-    html_dsl.div({id: 'sign_in_page', styles: ['display: none']}) do
-      html_dsl.form("user", {id: 'sign_in_user', action: 'sign_in'}) do
-        add_route('post', 'sign_in', 'users', 'sign_in')
-        fz_dsl.row({classes: [styles.content_section]}) do
-          fz_dsl.columns(9, {classes: [styles.div_border], ext_classes: ['small-offset-2']}) do
-            fz_dsl.row do
-              fz_dsl.columns_for(
-                [
-                 [5, -> {html_dsl.label('Account Name:', {id: 'acct_name', classes: [styles.label_style, styles.right_justify]})}],
-                 [11, -> {html_dsl.text_field({id: 'acct_name', field_name: 'acct_name'})}],
-                ])
+          fz_dsl.row do
+            fz_dsl.columns(1, {ext_classes: ['small-offset-7']}) do
+              html_dsl.post_button("Sign In")
             end
-            fz_dsl.row do
-              fz_dsl.columns_for(
-                [
-                  [5, -> {html_dsl.label('Password:', {id: 'password', classes: [styles.label_style, styles.right_justify]})}],
-                  [11, -> {html_dsl.password_field({id: 'password', field_name: 'password'})}],
-                ])
+          end
+
+          fz_dsl.row do html_dsl.line_break() end
+
+          fz_dsl.row do
+            fz_dsl.columns(16) do
+              html_dsl.label('Forgot your account name or password?')
             end
+          end
 
-            fz_dsl.row do
-              fz_dsl.columns(1, {ext_classes: ['small-offset-7']}) do
-                html_dsl.post_button("Sign In")
-              end
-            end
-
-            fz_dsl.row do html_dsl.line_break() end
-
-            fz_dsl.row do
-              fz_dsl.columns(16) do
-                html_dsl.label('Forgot your account name or password?')
-              end
-            end
-
-            fz_dsl.row do
-              fz_dsl.columns(16) do
-                html_dsl.label('Don\'t have an account yet?')
-              end
+          fz_dsl.row do
+            fz_dsl.columns(16) do
+              html_dsl.label('Don\'t have an account yet?')
             end
           end
         end
       end
     end
   end
-end
+=end

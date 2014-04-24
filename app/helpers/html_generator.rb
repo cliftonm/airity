@@ -191,7 +191,7 @@ module Airity
       nil
     end
 
-    def text_field(model_name, field_name = nil, id = nil, klass = nil, data = nil)
+    def text_field(model_name, field_name = nil, id = nil, klass = nil, data = nil, value = nil)
       element = @xdoc.create_element('input')
       element.html_closing_tag = false
       @current_node.append_child(element)
@@ -204,6 +204,8 @@ module Airity
 
       element.append_attribute(@xdoc.create_attribute('class', klass)) if klass
       element.append_attribute(@xdoc.create_attribute('type', 'text'))
+
+      element.append_attribute(@xdoc.create_attribute('value', value)) if value
 
       # TODO: Duplicate code
       if data
