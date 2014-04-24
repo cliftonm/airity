@@ -135,7 +135,9 @@ module Airity
       id = get_id(options)
       field_name = get_field_name(options)
       data = get_data(options)
-      @html_gen.text_field(@current_model_name, field_name, id, class_names, data)
+      model = get_model(options)
+      model ||= @current_model_name
+      @html_gen.text_field(model, field_name, id, class_names, data)
 
       nil
     end

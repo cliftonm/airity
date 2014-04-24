@@ -1,0 +1,37 @@
+<Schema>
+  <Table Name="user">
+    <Field Name="first_name" Type="string" Nullable="false"/>
+    <Field Name="last_name" Type="string" Nullable="false"/>
+    <Field Name="last_name" Type="string" AllowNull="false"/>
+    <Field Name="account_name" Type="string" AllowNull="false"/>
+    <Field Name="email" Type="string" AllowNull="false"/>
+    <Field Name="password_hash" Type="string" AllowNull="false"/>
+  </Table>
+  <View Name="user">
+    <Table Name = "user">
+      <TableField Name="first_name"/>
+      <TableField Name="last_name"/>
+      <TableField Name="account_name"/>
+      <TableField Name="email"/>
+    </Table>
+    <ViewField Name="password1" Type="string" AllowNull="false"/>
+    <ViewField Name="password2" Type="string" AllowNull="false"/>
+    <ViewField Name="ack" Type="bool" AllowNull="false"/>
+  </View>
+  <Presentation
+          Name = "User Registration"
+          View = "user"
+          Columns="14"
+          Classes="div_border"
+          LabelClasses="label-style right-justify"
+          LabelColumns="5"
+          FieldColumns="6">
+    <Metadata Field="first_name" Control="TextField" Label="First Name:"/>
+    <Metadata Field="last_name" Control="TextField" Label="First Name:"/>
+    <Metadata Field="account_name" Control="TextField" Label="Account Name:"/>
+    <Metadata Field="email" Control="TextField" Label="Email:"/>
+    <Metadata Field="password1" Control="PasswordField" Label="Password:"/>
+    <Metadata Field="password2" Control="PasswordField" Label="Repeat Password:"/>
+    <Metadata Field="ack" Control="Checkbox" Label="I acknowledge that I have read the #{inline_privacy_policy(html_dsl)} and #{inline_terms_and_conditions(html_dsl)}"/>
+  </Presentation>
+</Schema>

@@ -125,6 +125,31 @@ class HomeController < ApplicationController
     end
   end
 
+  def register_markup2(html_dsl, fz_dsl, styles)
+    html_dsl.div({id: 'register_page', styles: ['display: none']}) do
+      Presentation("User Registration", html_dsl, fz_dsl) do
+        fz_dsl.row do
+          fz_dsl.columns(16, {ext_classes: ['small-offset-4']}) do
+            recaptcha_html = recaptcha_tags()
+            html_dsl.p_block() do
+              html_dsl.inject(recaptcha_html)
+            end
+          end
+        end
+
+        html_dsl.line_break()
+
+        fz_dsl.row do
+          fz_dsl.columns(1, {ext_classes: ['small-offset-7']}) do
+            html_dsl.post_button("Register")
+          end
+        end
+
+        fz_dsl.row do html_dsl.line_break() end
+      end
+    end
+  end
+
   def register_markup(html_dsl, fz_dsl, styles)
     html_dsl.div({id: 'register_page', styles: ['display: none']}) do
       html_dsl.form("user", {id: 'register_user', action: 'register'}) do
@@ -142,7 +167,14 @@ class HomeController < ApplicationController
               fz_dsl.columns_for(
                   [
                       [5, -> {html_dsl.label('Last Name:', {id: 'last_name', classes: [styles.label_style, styles.right_justify]})}],
-                      [6, -> {html_dsl.text_field({id: 'last_name'})}],
+                      [6, -> {html_dsl.text_field({id: 'last_name', field_name: 'last_name', data: ['required']})}],
+                  ])
+            end
+            fz_dsl.row do
+              fz_dsl.columns_for(
+                  [
+                      [5, -> {html_dsl.label('Address:', {id: 'address', classes: [styles.label_style, styles.right_justify]})}],
+                      [6, -> {html_dsl.text_field({id: 'address', model: 'address', field_name: 'full_address'})}],
                   ])
             end
             fz_dsl.row do

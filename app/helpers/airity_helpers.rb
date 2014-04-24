@@ -75,6 +75,12 @@ module Airity
     data
   end
 
+  def get_model(options)
+    model = options[:model]
+
+    model
+  end
+
   # Returns nil or the value of the :field_name key in options
   def get_field_name(options)
     field_name = options[:field_name]
