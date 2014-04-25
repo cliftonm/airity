@@ -1,11 +1,10 @@
 <Schema>
   <Table Name="user">
-    <Field Name="first_name" Type="string" AllowNull="false"/>
-    <Field Name="last_name" Type="string" AllowNull="false"/>
-    <Field Name="last_name" Type="string" AllowNull="false"/>
-    <Field Name="account_name" Type="string" AllowNull="false"/>
-    <Field Name="email" Type="string" AllowNull="false"/>
-    <Field Name="password_hash" Type="string" AllowNull="false"/>
+    <Field Name="first_name" AllowNull="false"/>
+    <Field Name="last_name" AllowNull="false"/>
+    <Field Name="account_name" AllowNull="false"/>
+    <Field Name="email" AllowNull="false"/>
+    <Field Name="password_hash" AllowNull="false"/>
   </Table>
 
   <View Name="user">
@@ -15,8 +14,8 @@
       <TableField Name="account_name"/>
       <TableField Name="email"/>
     </Table>
-    <ViewField Name="password1" Type="string" AllowNull="false"/>
-    <ViewField Name="password2" Type="string" AllowNull="false"/>
-    <ViewField Name="ack" Type="bool" AllowNull="false"/>
+    <ViewField Name="password" AllowNull="false"/>
+    <ViewField Name="confirm_password" AllowNull="false"/>
+    <ViewField Name="ack_terms"/>
   </View>
 </Schema>

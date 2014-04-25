@@ -11,8 +11,14 @@
       self
     end
 
+    def [](name)
+      @fields.find {|p| p.definition.name == name}
+    end
+
     def add_field(field)
       @fields << field
+
+      nil
     end
   end
 # end

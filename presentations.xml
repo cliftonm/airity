@@ -1,40 +1,29 @@
 <Presentations>
-  <Presentation
-          Name = "User Registration"
-          View = "user"
-          Columns="14"
-          Classes="div-border"
-          LabelClasses="label-style right-justify"
-          LabelColumns="5"
-          FieldColumns="6">
-    <Metadata Field="first_name" Control="TextField" Label="First Name:"/>
-    <Metadata Field="last_name" Control="TextField" Label="First Name:"/>
-    <Metadata Field="account_name" Control="TextField" Label="Account Name:"/>
-    <Metadata Field="email" Control="TextField" Label="Email:"/>
-    <Metadata Field="password1" Control="PasswordField" Label="Password:"/>
-    <Metadata Field="password2" Control="PasswordField" Label="Repeat Password:"/>
-    <Metadata Field="ack"
-              Control="Checkbox"
-              Columns="16"
-              Classes="small-offset-2"
-              Inline="true"
-              Label="I acknowledge that I have read the #{inline_privacy_policy(html_dsl)} and #{inline_terms_and_conditions(html_dsl)}"/>
+  <Presentation Name="User Registration" View="user" Width="14" Classes="div-border">
+    <Flow LabelClasses="label-style right-justify" LabelColumns="5" FieldColumns="6">
+      <InputField Name="first_name"/>
+      <InputField Name="last_name"/>
+      <InputField Name="account_name"/>
+      <InputField Name="email"/>
+      <InputField Name="password"/>
+      <InputField Name="confirm_password"/>
+    </Flow>
+    <Flow Width="16" Classes="small-offset-2">
+      <InputField Name="ack_terms" Label="I acknowledge that I have read the #{inline_privacy_policy(html_dsl)} and #{inline_terms_and_conditions(html_dsl)}"/>
+    </Flow>
   </Presentation>
 
-  <Presentation
-          Name = "Sign In"
-          View = "user"
-          Columns="9"
-          Classes="div-border small-offset-2"
-          LabelClasses="label-style right-justify"
-          LabelColumns="5"
-          FieldColumns="11">
-    <Metadata Field="account_name" Control="TextField" Label="Account Name:"/>
-    <Metadata Field="password" Control="PasswordField" Label="Password:"/>
-    <Metadata Control="LineBreak" Inline="true"/>
-    <Metadata Control="LinkTo" Columns="16" Inline="true" Label="Forgot your account name or password?" URL="#"/>
-    <Metadata Control="LineBreak" Inline="true"/>
-    <Metadata Control="LinkTo" Columns="16" Inline="true" Label="Don't have an account yet?" URL="#"/>
-    <Metadata Control="LineBreak" Inline="true"/>
+  <Presentation Name="Sign In" View="user" Width="9" Classes="div-border small-offset-2">
+    <Flow LabelClasses="label-style right-justify" LabelColumns="5" FieldColumns="11">
+      <InputField Name="account_name"/>
+      <InputField Name="password"/>
+    </Flow>
+    <Flow Width="16">
+      <LineBreak/>
+      <LinkTo Label="Forgot your account name or password?" URL="#"/>
+      <LineBreak/>
+      <LinkTo Label="Don't have an account yet?" URL="#"/>
+      <LineBreak/>
+    </Flow>
   </Presentation>
 </Presentations>

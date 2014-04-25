@@ -1,0 +1,10 @@
+<Dictionary>
+  <Definition Name="first_name" Type="string" Control="TextField" Label="First Name:"/>
+  <Definition Name="last_name" Type="string" Control="TextField" Label="Last Name:"/>
+  <Definition Name="account_name" Type="string" Control="TextField" Label="Account Name:"/>
+  <Definition Name="email" Type="string" Control="TextField" Label="Email:"/>
+  <Definition Name="password" Type="string" Control="PasswordField" Label="Password:"/>
+  <Definition Name="confirm_password" Type="string" Control="PasswordField" Label="Repeat Password:"/>
+  <Definition Name="password_hash" Type="string"/>
+  <Definition Name="ack_terms" Type="boolean" Control="CheckBox" Label="I acknowledge that I have read the #{inline_privacy_policy(html_dsl)} and #{inline_terms_and_conditions(html_dsl)}"/>
+</Dictionary>

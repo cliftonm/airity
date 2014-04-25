@@ -2,19 +2,17 @@
 class Presentation
   attr_reader :name
   attr_reader :view_name
-  attr_reader :columns
+  attr_reader :width
   attr_reader :classes
-  attr_reader :label_classes
-  attr_reader :label_columns
-  attr_reader :field_columns
-  attr_reader :metadata
+  attr_reader :flows
 
   def initialize(&block)
-    @metadata = []
+    @flows = []
     instance_eval(&block) unless block.nil?
   end
 
-  def add_metadata(metadata)
-    @metadata << metadata
+  def add_flow(flow)
+    @flows << flow
   end
 end
+

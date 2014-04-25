@@ -1,9 +1,8 @@
 # module CliftonSchema
 class ViewTableField
-  attr_reader :name
+  attr_reader :table_field
 
   def initialize(&block)
-    @name = nil
     instance_eval(&block) unless block.nil?
 
     self
